@@ -6,10 +6,10 @@ import { bookService } from '../services/book.service.js'
 const { useState, useEffect } = React
 
 export function BookIndex() {
-  const [cars, setBooks] = useState(null)
+  const [books, setBooks] = useState(null)
   const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
 
-  const [selectedbookId, setSelectedbookId] = useState(null)
+  const [selectedBookId, setSelectedBookId] = useState(null)
 
   useEffect(() => {
     loadBooks()
@@ -20,7 +20,7 @@ export function BookIndex() {
       .query(filterBy)
       .then(setBooks)
       .catch((err) => {
-        console.log('Problem getting cars:', err)
+        console.log('Problem getting books:', err)
       })
   }
 
@@ -28,40 +28,43 @@ export function BookIndex() {
     bookService
       .remove(bookId)
       .then(() => {
-        setBooks((cars) => cars.filter((book) => book.id !== bookId))
+        setBooks((books) => books.filter((book) => book.id !== bookId))
       })
       .catch((err) => {
         console.log('Problems removing book:', err)
       })
   }
 
-  function onSetFilter(filterByToEdit) {
+  function handleSetFilter(filterByToEdit) {
     // console.log('filterByToEdit - index:', filterByToEdit)
     setFilterBy((filterBy) => ({ ...filterBy, ...filterByToEdit }))
   }
 
   function onSetSelectedbookId(bookId) {
-    setSelectedbookId(bookId)
+    setSelectedBookId(bookId)
   }
 
-  if (!cars) return <div>Loading...</div>
-  const { txt, minSpeed } = filterBy
+  if (!books) return <div>Loading...</div>
+  const { title, price } = filterBy
   return (
     <section className='book-index'>
       <h1>Book Index!</h1>
-      {selectedbookId ? (
+      {selectedBookId ? (
         <BookDetails
-          onBack={() => setSelectedbookId(null)}
-          bookId={selectedbookId}
+          onBack={() => setSelectedBookId(null)}
+          bookId={selectedBookId}
         />
       ) : (
         <React.Fragment>
-          <BookFilter onSetFilter={onSetFilter} filterBy={{ txt, minSpeed }} />
+          <BookFilter
+            handleSetFilter={handleSetFilter}
+            filterBy={{ title, price }}
+          />
           {/* <BookFilter2 onSetFilter={onSetFilter} filterBy={{ price }} /> */}
           <BookList
             onSetSelectedbookId={onSetSelectedbookId}
             onRemoveBook={onRemoveBook}
-            cars={cars}
+            books={books}
           />
         </React.Fragment>
       )}
