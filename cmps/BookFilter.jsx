@@ -2,18 +2,17 @@ import { bookService } from '../services/book.service.js'
 
 const { useState, useEffect } = React
 
-export function BookFilter({ filterBy, onSetFilter }) {
-  //* { txt: '', minSpeed: '' }
+export function BookFilter({ filterBy, handleSetFilter }) {
+  //* { txt: '', price: '' }
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
 
   useEffect(() => {
-    onSetFilter(filterByToEdit)
+    handleSetFilter(filterByToEdit)
   }, [filterByToEdit])
 
   function onSubmit(ev) {
     ev.preventDefault()
-    console.log('Submit filter')
-    onSetFilter(filterByToEdit)
+    handleSetFilter(filterByToEdit)
   }
 
   function handleChange({ target }) {
@@ -32,34 +31,26 @@ export function BookFilter({ filterBy, onSetFilter }) {
     setFilterByToEdit((filterBy) => ({ ...filterBy, [field]: value }))
   }
 
-  // function onTxtChange(ev) {
-  //     setFilterByToEdit(filterBy => ({ ...filterBy, txt: ev.target.value }))
-  // }
-
-  // function onMinSpeedChange(ev) {
-  //     setFilterByToEdit(filterBy => ({ ...filterBy, minSpeed: ev.target.value }))
-  // }
-
-  const { txt, minSpeed } = filterByToEdit
+  const { title, price } = filterByToEdit
   return (
     <section className='book-filter'>
       <h2>Filter Our Books</h2>
       <form onSubmit={onSubmit}>
-        <label htmlFor='txt'>Vendor</label>
+        <label htmlFor='title'>Title</label>
         <input
-          id='txt'
-          name='txt'
+          id='title'
+          name='title'
           onChange={handleChange}
-          value={txt}
+          value={title}
           type='text'
         />
 
-        <label htmlFor='minSpeed'>Min Speed</label>
+        <label htmlFor='price'>Min Price</label>
         <input
-          id='minSpeed'
-          name='minSpeed'
+          id='price'
+          name='price'
           onChange={handleChange}
-          value={minSpeed || ''}
+          value={`${price}` || ''}
           type='number'
         />
 
