@@ -1,0 +1,9 @@
+section.long-txt p span {
+  text-decoration: underline;
+  color: lightblue;
+  cursor: pointer;
+
+  &:hover {
+    color: rgb(16, 41, 232);
+  }
+}
