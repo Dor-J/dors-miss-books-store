@@ -43,27 +43,27 @@ object {
 
 /* Simple and useful CSS Debugging Technique */
 .debug * {
-  outline: 1px solid gold;
+  outline: 1px solid var(--clr-gold);
 }
 
 .page-count-high {
-  color: green;
+  color: var(--clr-green);
 }
 
 .page-count-medium {
-  color: blue;
+  color: var(--clr-blue);
 }
 
 .page-count-low {
-  color: rgb(255, 95, 95);
+  color: var(--clr-red-1);
 }
 
 .color-green {
-  color: rgb(75, 255, 47);
+  color: var(--clr-green-1);
 }
 
 .color-red {
-  color: red;
+  color: var(--clr-red);
 }
 
 /* image container after */
@@ -80,8 +80,8 @@ object {
   top: 0;
   right: 50%;
   width: 100px;
-  color: white;
-  background-color: rgb(242, 9, 9);
+  color: var(--gray0);
+  background-color: var(--clr-red-2);
   font-size: 1rem;
   text-align: center;
   display: none;

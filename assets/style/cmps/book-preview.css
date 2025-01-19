@@ -8,7 +8,7 @@
 
 .book-preview h4 {
   text-transform: capitalize;
-  color: black;
+  color: var(--gray-blac);
 }
 
 .book-preview img {

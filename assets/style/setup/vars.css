@@ -1,13 +1,26 @@
 :root {
-    --clr1: rgb(96, 107, 91);
-    --clr2: rgb(120, 99, 110);
+  --clr1: rgb(96, 107, 91);
+  --clr2: rgb(120, 99, 110);
 
-    --clr1bg: rgb(153, 166, 149);
-    --clr1bg-light: rgb(205, 221, 200);
-    --clr2bg: rgb(233, 206, 221);
-    --clr2bg-light: rgb(253, 236, 246);
+  --clr-gold: gold;
+  --clr-green: green;
+  --clr-green-1: rgb(75, 255, 47);
+  --clr-red: red;
+  --clr-red-1: rgb(255, 95, 95);
+  --clr-red-2: rgb(242, 9, 9);
+  --clr-blue: blue;
+  --clr-blue-1: rgb(16, 41, 232);
+  --clr-blue-2: lightblue;
 
-    --gray1: rgb(240, 240, 240);
-    --gray2: rgb(155, 155, 155);
-    --gray3: rgb(44, 44, 44);
+  --clr1bg: rgb(153, 166, 149);
+  --clr1bg-light: rgb(205, 221, 200);
+  --clr2bg: rgb(233, 206, 221);
+  --clr2bg-light: rgb(253, 236, 246);
+
+  --gray0: rgb(255, 255, 255);
+  --gray1: rgb(240, 240, 240);
+  --gray1-1: lightgray;
+  --gray2: rgb(155, 155, 155);
+  --gray3: rgb(44, 44, 44);
+  --gray-black: rgb(0, 0, 0);
 }
