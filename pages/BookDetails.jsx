@@ -1,4 +1,5 @@
 import { bookService } from '../services/book.service.js'
+import { LongTxt } from '../cmps/LongTxt.jsx'
 
 const { useState, useEffect } = React
 
@@ -122,7 +123,12 @@ export function BookDetails({ bookId, onBack }) {
           )}{' '}
           {listPrice.currencyCode}
         </h2>
-        <p>{description}</p>
+        <h4>Description</h4>
+        {description.split(' ').length > 100 ? (
+          <LongTxt txt={description} />
+        ) : (
+          <p>{description}</p>
+        )}
       </div>
       <div className={`image-container ${listPrice.isOnSale && 'on-sale'}`}>
         <img src={`../assets/img/${thumbnail}`} alt='Book Image' />

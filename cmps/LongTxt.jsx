@@ -26,25 +26,23 @@ export function LongTxt({ txt, length = 100 }) {
     }
   }, [isTextFullDisplay])
 
-  //   function countWords(txt){
-  // const count =
-  //   }
-
   function onToggleDisplay(ev) {
     ev.preventDefault()
     setIsTextFullDisplay((isTextFullDisplay) => !isTextFullDisplay)
   }
 
+  function renderTextSpan() {
+    return !isTextFullDisplay ? (
+      <span onClick={(event) => onToggleDisplay(event)}>Read more</span>
+    ) : (
+      <span onClick={(event) => onToggleDisplay(event)}>Read less</span>
+    )
+  }
+
   return (
     <section className='long-txt'>
       <p>
-        {renderedText && renderedText}{' '}
-        {!isTextFullDisplay && (
-          <span onClick={(event) => onToggleDisplay(event)}>Read more</span>
-        )}
-        {isTextFullDisplay && (
-          <span onClick={(event) => onToggleDisplay(event)}>Read less</span>
-        )}
+        {renderedText && renderedText} {renderTextSpan()}
       </p>
     </section>
   )
