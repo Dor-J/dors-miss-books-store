@@ -332,7 +332,7 @@ export const demoBooks = [
     id: 'u3j6QIKLlJb',
     title: 'rhoncus vivamus',
     subtitle: 'nullam class risus amet senectus scelerisque etiam curabitur',
-    authors: ['Agatha Christie'],
+    authors: ['Agatha Christie', 'Agatha Christie2'],
     publishedDate: 1978,
     description:
       'torquent in et id lacus vivamus aptent cursus erat integer venenatis risus ac ante quam etiam euismod feugiat risus suscipit rhoncus pharetra quisque felis',
