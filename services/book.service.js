@@ -15,13 +15,13 @@ export const bookService = {
 
 function query(filterBy = {}) {
   return storageService.query(MISS_BOOKS_KEY).then((books) => {
-    if (filterBy.txt) {
-      const regExp = new RegExp(filterBy.txt, 'i')
+    if (filterBy.title) {
+      const regExp = new RegExp(filterBy.title, 'i')
       books = books.filter((book) => regExp.test(book.title))
     }
-    // if (filterBy.minSpeed) {
-    //     books = books.filter(book => book.speed >= filterBy.minSpeed)
-    // }
+    if (filterBy.price) {
+      books = books.filter((book) => book.listPrice.amount >= filterBy.price)
+    }
     return books
   })
 }
@@ -44,7 +44,7 @@ function save(book) {
 }
 
 function getDefaultFilter() {
-  return { title: '' }
+  return { title: '', price: '' }
 }
 
 function _createBooks() {
@@ -57,7 +57,7 @@ function _createBooks() {
 
 function _createBook(title) {
   const book = _getEmptyBook(title)
-  book.id = makeId(11)
+  if (!book.id) book.id = makeId(11)
   return book
 }
 
