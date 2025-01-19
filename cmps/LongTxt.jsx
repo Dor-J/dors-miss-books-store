@@ -7,7 +7,6 @@ export function LongTxt({ txt, length = 100 }) {
   useEffect(() => {}, [])
 
   useEffect(() => {
-    console.log('renderedText', renderedText)
     if (
       txt.split(' ').length < length ||
       (isTextFullDisplay && txt.split(' ').length > length)

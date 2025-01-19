@@ -20,7 +20,7 @@ export function BookIndex() {
       .query(filterBy)
       .then(setBooks)
       .catch((err) => {
-        console.log('Problem getting books:', err)
+        console.error('Problem getting books:', err)
       })
   }
 
@@ -31,12 +31,11 @@ export function BookIndex() {
         setBooks((books) => books.filter((book) => book.id !== bookId))
       })
       .catch((err) => {
-        console.log('Problems removing book:', err)
+        console.error('Problems removing book:', err)
       })
   }
 
   function handleSetFilter(filterByToEdit) {
-    // console.log('filterByToEdit - index:', filterByToEdit)
     setFilterBy((filterBy) => ({ ...filterBy, ...filterByToEdit }))
   }
 

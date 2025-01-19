@@ -15,7 +15,7 @@ export function BookDetails({ bookId, onBack }) {
       .get(bookId)
       .then(setBook)
       .catch((err) => {
-        console.log('Problem getting book:', err)
+        console.error('Problem getting book:', err)
       })
   }
 
