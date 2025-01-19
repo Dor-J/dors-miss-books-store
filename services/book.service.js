@@ -19,9 +19,31 @@ function query(filterBy = {}) {
       const regExp = new RegExp(filterBy.title, 'i')
       books = books.filter((book) => regExp.test(book.title))
     }
+
+    if (filterBy.authors) {
+      const regExp = new RegExp(filterBy.authors, 'i')
+      books = books.filter((book) => {
+        if (book.authors.length === 1) return regExp.test(book.authors)
+        return book.authors.some((author) => regExp.test(author))
+      })
+    }
+
+    if (filterBy.categories) {
+      const regExp = new RegExp(filterBy.categories, 'i')
+      books = books.filter((book) => {
+        if (book.categories.length === 1) return regExp.test(book.categories)
+        return book.categories.some((categorie) => regExp.test(categorie))
+      })
+    }
+
     if (filterBy.price) {
       books = books.filter((book) => book.listPrice.amount >= filterBy.price)
     }
+
+    if (filterBy.pageCount) {
+      books = books.filter((book) => book.pageCount >= filterBy.pageCount)
+    }
+
     return books
   })
 }
