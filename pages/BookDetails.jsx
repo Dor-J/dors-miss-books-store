@@ -20,27 +20,31 @@ export function BookDetails({ bookId, onBack }) {
 
   if (!book) return <div>Loading...</div>
   const { title, listPrice, thumbnail, description, authors } = book
-  console.log('book', book)
 
   return (
     <section className='book-details'>
       <div className='book-details'>
         <h1>Book Title: {title}</h1>
-        <h2>Book Autor: {authors}</h2>
+        <h2>
+          Book{' '}
+          {authors.length > 1
+            ? `Autors: ${authors.map((author) => ` ${author}`)}`
+            : `Autor: ${authors}`}
+        </h2>
         <h2>
           Book Price:{' '}
-          {!listPrice.isOnSale
-            ? listPrice.amount
-            : ((
-                <span className='text-line-through'>{`${listPrice.amount}`}</span>
-              ),
-              'Discount! ',
-              (
-                <span className='text-undeline'>
-                  {' '}
-                  {parseInt(listPrice.amount * 0.7)}
-                </span>
-              ))}{' '}
+          {!listPrice.isOnSale ? (
+            listPrice.amount
+          ) : (
+            <React.Fragment>
+              <span className='text-line-through'>{`${listPrice.amount}`}</span>
+              ,
+              <span className='text-undeline'>
+                {' Discount! '}
+                {parseInt(listPrice.amount * 0.7)}
+              </span>
+            </React.Fragment>
+          )}{' '}
           {listPrice.currencyCode}
         </h2>
         <p>{description}</p>
