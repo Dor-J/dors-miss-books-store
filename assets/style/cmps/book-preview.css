@@ -14,3 +14,8 @@
 .book-preview img {
   max-width: 100px;
 }
+
+.book-preview .image-container::after {
+  right: 50%;
+  width: 50px;
+}

@@ -18,7 +18,9 @@ export function BookPreview({ book }) {
         )}
         {' ' + listPrice.currencyCode}
       </h4>
-      <img src={`../assets/img/${thumbnail}`} alt='Book Image' />
+      <div className={`image-container ${listPrice.isOnSale && 'on-sale'}`}>
+        <img src={`../assets/img/${thumbnail}`} alt='Book Image' />
+      </div>
     </article>
   )
 }

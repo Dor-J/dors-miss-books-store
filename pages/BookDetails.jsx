@@ -124,7 +124,9 @@ export function BookDetails({ bookId, onBack }) {
         </h2>
         <p>{description}</p>
       </div>
-      <img src={`../assets/img/${thumbnail}`} alt='Book Image' />
+      <div className={`image-container ${listPrice.isOnSale && 'on-sale'}`}>
+        <img src={`../assets/img/${thumbnail}`} alt='Book Image' />
+      </div>
 
       <button onClick={onBack}>Back</button>
     </section>

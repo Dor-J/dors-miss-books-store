@@ -65,3 +65,28 @@ object {
 .color-red {
   color: red;
 }
+
+/* image container after */
+
+.image-container {
+  position: relative;
+  width: 100%;
+}
+
+.image-container::after {
+  position: absolute;
+  content: 'On Sale';
+  z-index: 2;
+  top: 0;
+  right: 50%;
+  width: 100px;
+  color: white;
+  background-color: rgb(242, 9, 9);
+  font-size: 1rem;
+  text-align: center;
+  display: none;
+}
+
+.image-container.on-sale::after {
+  display: block;
+}
