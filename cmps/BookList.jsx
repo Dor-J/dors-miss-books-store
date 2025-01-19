@@ -1,9 +1,9 @@
 import { BookPreview } from './BookPreview.jsx'
 
-export function BookList({ cars, onRemoveBook, onSetSelectedbookId }) {
+export function BookList({ books, onRemoveBook, onSetSelectedbookId }) {
   return (
     <ul className='book-list'>
-      {cars.map((book) => (
+      {books.map((book) => (
         <li key={book.id}>
           <BookPreview book={book} />
           <section>
