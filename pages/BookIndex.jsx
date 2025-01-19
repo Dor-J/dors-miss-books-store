@@ -48,7 +48,7 @@ export function BookIndex() {
   const { title, price } = filterBy
   return (
     <section className='book-index'>
-      <h1>Book Index!</h1>
+      <h1 className='text-center'>Miss Book Shop</h1>
       {selectedBookId ? (
         <BookDetails
           onBack={() => setSelectedBookId(null)}

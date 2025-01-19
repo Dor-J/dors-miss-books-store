@@ -1,7 +1,7 @@
 export function AboutUs() {
   return (
     <section className='about-us'>
-      <h1>About Books and us...</h1>
+      <h1 className='text-center'>About Books and us...</h1>
       <p>
         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Optio dolore
         sapiente, iste animi corporis nisi atque tempora assumenda dolores.
