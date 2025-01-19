@@ -58,6 +58,7 @@ export function BookDetails({ bookId, onBack }) {
       return 'page-count-medium'
     } else return ''
   }
+
   function priceHighlight(price) {
     if (price > 150) {
       return 'color-red'
@@ -75,6 +76,7 @@ export function BookDetails({ bookId, onBack }) {
     authors,
     pageCount,
     publishedDate,
+    categories,
   } = book
 
   return (

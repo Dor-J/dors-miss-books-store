@@ -40,8 +40,8 @@ function query(filterBy = {}) {
       books = books.filter((book) => book.listPrice.amount >= filterBy.price)
     }
 
-    if (filterBy.pageCount) {
-      books = books.filter((book) => book.pageCount >= filterBy.pageCount)
+    if (filterBy.pages) {
+      books = books.filter((book) => book.pageCount >= filterBy.pages)
     }
 
     return books
@@ -66,7 +66,7 @@ function save(book) {
 }
 
 function getDefaultFilter() {
-  return { title: '', price: '' }
+  return { title: '', price: '', categories: '', authors: '', pages: '' }
 }
 
 function _createDemoBooks() {

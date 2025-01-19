@@ -44,8 +44,33 @@ export function BookIndex() {
     setSelectedBookId(bookId)
   }
 
+  function getBooksStats(books) {
+    const booksStats = { minPrice: 0, maxPrice: 0, minPages: 0, maxPages: 0 }
+    booksStats.minPrice = books.reduce((acc, book) => {
+      const bookPrice = book.listPrice.amount
+      if (bookPrice < acc) acc = bookPrice
+      return acc
+    }, 100000)
+    booksStats.maxPrice = books.reduce((acc, book) => {
+      const bookPrice = book.listPrice.amount
+      if (bookPrice > acc) acc = bookPrice
+      return acc
+    }, 0)
+    booksStats.minPages = books.reduce((acc, book) => {
+      const bookPages = book.pageCount
+      if (bookPages < acc) acc = bookPages
+      return acc
+    }, 100000)
+    booksStats.maxPages = books.reduce((acc, book) => {
+      const bookPages = book.pageCount
+      if (bookPages > acc) acc = bookPages
+      return acc
+    }, 0)
+    return booksStats
+  }
+
   if (!books) return <div>Loading...</div>
-  const { title, price } = filterBy
+  const { title, price, authors, categories, pages } = filterBy
   return (
     <section className='book-index'>
       <h1 className='text-center'>Miss Book Shop</h1>
@@ -58,9 +83,10 @@ export function BookIndex() {
         <React.Fragment>
           <BookFilter
             handleSetFilter={handleSetFilter}
-            filterBy={{ title, price }}
+            filterBy={{ title, price, authors, categories, pages }}
+            booksStats={getBooksStats(books)}
           />
-          {/* <BookFilter2 onSetFilter={onSetFilter} filterBy={{ price }} /> */}
+
           <BookList
             onSetSelectedbookId={onSetSelectedbookId}
             onRemoveBook={onRemoveBook}
