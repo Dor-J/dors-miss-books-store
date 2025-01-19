@@ -131,12 +131,19 @@ export function BookDetails({ bookId, onBack }) {
         ) : (
           <p>{description}</p>
         )}
+        <h4>Categories</h4>
+        <ul className='categories-list w100'>
+          {categories.map((category) => (
+            <li key={category}>{`${category}`}</li>
+          ))}
+        </ul>
       </div>
       <div className={`image-container ${listPrice.isOnSale && 'on-sale'}`}>
         <img src={`../assets/img/${thumbnail}`} alt='Book Image' />
       </div>
-
-      <button onClick={onBack}>Back</button>
+      <div className='btns flex align-center justify-center w100'>
+        <button onClick={onBack}>Back</button>
+      </div>
     </section>
   )
 }
