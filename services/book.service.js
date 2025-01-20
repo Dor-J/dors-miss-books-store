@@ -1,8 +1,9 @@
 import { loadFromStorage, makeId, saveToStorage } from './util.service.js'
 import { storageService } from './async-storage.service.js'
+import { utilService } from './util.service.js'
 import { demoBooks } from '../assets/demoData/books.js'
 
-const MISS_BOOKS_KEY = 'MISS_BOOKS_DB'
+const BOOKS_KEY = 'booksDB'
 _createDemoBooks()
 
 export const bookService = {
@@ -11,10 +12,11 @@ export const bookService = {
   remove,
   save,
   getDefaultFilter,
+  getEmptyBook,
 }
 
 function query(filterBy = {}) {
-  return storageService.query(MISS_BOOKS_KEY).then((books) => {
+  return storageService.query(BOOKS_KEY).then((books) => {
     if (filterBy.title) {
       const regExp = new RegExp(filterBy.title, 'i')
       books = books.filter((book) => regExp.test(book.title))
@@ -49,19 +51,20 @@ function query(filterBy = {}) {
 }
 
 function get(bookId) {
-  return storageService.get(MISS_BOOKS_KEY, bookId)
+  return storageService.get(BOOKS_KEY, bookId)
 }
 
 function remove(bookId) {
   // return Promise.reject('Oh No!')
-  return storageService.remove(MISS_BOOKS_KEY, bookId)
+  return storageService.remove(BOOKS_KEY, bookId)
 }
 
 function save(book) {
   if (book.id) {
-    return storageService.put(MISS_BOOKS_KEY, book)
+    return storageService.put(BOOKS_KEY, book)
   } else {
-    return storageService.post(MISS_BOOKS_KEY, _createBook(book.title))
+    const newBook = _createBook(book.title, book.amount)
+    return storageService.post(BOOKS_KEY, newBook)
   }
 }
 
@@ -70,10 +73,10 @@ function getDefaultFilter() {
 }
 
 function _createDemoBooks() {
-  let books = loadFromStorage(MISS_BOOKS_KEY)
+  let books = loadFromStorage(BOOKS_KEY)
   if (!books || !books.length) {
     books = demoBooks
-    saveToStorage(MISS_BOOKS_KEY, books)
+    saveToStorage(BOOKS_KEY, books)
   }
 }
 
@@ -103,30 +106,31 @@ function _createBooks() {
 }
 
 function _createBook(title) {
-  const book = _getEmptyBook(title)
+  const book = getEmptyBook(title)
   if (!book.id) book.id = makeId(11)
   return book
 }
 
-function _getEmptyBook(
-  title = '',
-  price = 0,
-  publishedDate = new Date.now().getFullYear()
-) {
+function getEmptyBook(title = '', amount = '') {
+  const ctgs = ['Love', 'Fiction', 'Poetry', 'Computers', 'Religion']
+  const randCtg1 =
+    ctgs[utilService.getRandomInt(1, parseInt(ctgs.length / 2) - 1)]
+  const randCtg2 =
+    ctgs[utilService.getRandomInt(parseInt(ctgs.length / 2), ctgs.length - 1)]
   return {
     title,
-    subtitle: '',
-    authors: [],
-    publishedDate,
-    description: '',
-    pageCount: 0,
-    categories: [],
-    thumbnail: '',
-    language: '',
+    subtitle: utilService.makeLorem(15),
+    authors: ['React'],
+    publishedDate: utilService.getRandomInt(1800, 2026),
+    description: utilService.makeLorem(50),
+    pageCount: utilService.getRandomIntInclusive(20, 600),
+    categories: [randCtg1, randCtg2],
+    thumbnail: `/assets/booksImages/${utilService.getRandomInt(1, 20)}.jpg`,
+    language: 'en',
     listPrice: {
-      amount: price,
+      amount,
       currencyCode: 'EUR',
-      isOnSale: false,
+      isOnSale: Math.random() > 0.7,
     },
   }
 }
