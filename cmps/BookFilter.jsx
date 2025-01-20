@@ -25,11 +25,16 @@ export function BookFilter({ filterBy, handleSetFilter, booksStats }) {
         value = +value
         break
 
+      case 'checkbox':
+        value = target.checked
+        break
+
       default:
         break
     }
-    setFilterByToEdit((filterBy) => ({ ...filterBy, [field]: value }))
+    setFilterByToEdit((prevFilterBy) => ({ ...prevFilterBy, [field]: value }))
   }
+
   const { minPrice, maxPrice, minPages, maxPages } = booksStats
   const { title, price, authors, categories, pages } = filterByToEdit
   return (

@@ -33,6 +33,10 @@ a {
   color: unset;
 }
 
+li {
+  list-style: none;
+}
+
 .input {
   border-radius: 4px;
   padding: 0.5rem 1rem;
@@ -99,4 +103,18 @@ object {
 
 .image-container.on-sale::after {
   display: block;
+}
+
+/* utils helpers */
+
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  border: none;
+  display: none;
 }

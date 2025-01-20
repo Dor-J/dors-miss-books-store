@@ -2,13 +2,18 @@ import { BookFilter } from '../cmps/BookFilter.jsx'
 import { BookList } from '../cmps/BookList.jsx'
 import { BookDetails } from './BookDetails.jsx'
 import { bookService } from '../services/book.service.js'
+import {
+  eventBusService,
+  showSuccessMsg,
+  showErrorMsg,
+} from '../services/event-bus.service.js'
 
 const { useState, useEffect } = React
+const { Link } = ReactRouterDOM
 
 export function BookIndex() {
   const [books, setBooks] = useState(null)
   const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
-  const [selectedBookId, setSelectedBookId] = useState(null)
 
   useEffect(() => {
     loadBooks()
@@ -28,18 +33,16 @@ export function BookIndex() {
       .remove(bookId)
       .then(() => {
         setBooks((books) => books.filter((book) => book.id !== bookId))
+        showSuccessMsg('Book Removed')
       })
       .catch((err) => {
         console.error('Problems removing book:', err)
+        showErrorMsg('Cannot Remove Book')
       })
   }
 
   function handleSetFilter(filterByToEdit) {
     setFilterBy((filterBy) => ({ ...filterBy, ...filterByToEdit }))
-  }
-
-  function handleSetSelectedbookId(bookId) {
-    setSelectedBookId(bookId)
   }
 
   function getBooksStats(books) {
@@ -79,12 +82,12 @@ export function BookIndex() {
             booksStats={getBooksStats(books)}
           />
 
+          <button>
+            <Link to='/car/edit'>Add Car</Link>
+          </button>
+
           {!!books.length && (
-            <BookList
-              handleSetSelectedbookId={handleSetSelectedbookId}
-              onRemoveBook={onRemoveBook}
-              books={books}
-            />
+            <BookList onRemoveBook={onRemoveBook} books={books} />
           )}
         </React.Fragment>
       )}

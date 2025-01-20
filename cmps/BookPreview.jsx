@@ -10,6 +10,9 @@ export function BookPreview({ book }) {
             src={`${thumbnail}`}
             alt='Book Image'
             className='book-card-thumbnail'
+            onError={({ currentTarget }) =>
+              (currentTarget.src = '../assets/img/default-book.png')
+            }
           />
         </div>
       </div>

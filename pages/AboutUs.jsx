@@ -1,3 +1,5 @@
+const { Link, Outlet } = ReactRouterDOM
+
 export function AboutUs() {
   return (
     <section className='about-us'>
@@ -9,6 +11,18 @@ export function AboutUs() {
         Nobis nam dolorem rerum illo facilis nemo sit voluptatibus laboriosam
         necessitatibus!
       </p>
+
+      <nav>
+        <Link replace to='/about/team'>
+          Team
+        </Link>{' '}
+        |
+        <Link replace to='/about/vision'>
+          Vision
+        </Link>
+      </nav>
+
+      <Outlet />
     </section>
   )
 }

@@ -7,6 +7,8 @@ export const utilService = {
   padNum,
   getDayName,
   getMonthName,
+  debounce,
+  animateCSS,
 }
 
 function makeId(length = 6) {
@@ -104,4 +106,30 @@ function getMonthName(date) {
     'December',
   ]
   return monthNames[date.getMonth()]
+}
+
+export function debounce(func, delay) {
+  let timeoutId
+  return (...args) => {
+    clearTimeout(timeoutId)
+    timeoutId = setTimeout(() => {
+      func(...args)
+    }, delay)
+  }
+}
+
+export function animateCSS(el, animation = 'bounce', isRemoveClass = true) {
+  const prefix = 'animate__'
+  return new Promise((resolve, reject) => {
+    const animationName = `${prefix}${animation}`
+    el.classList.add(`${prefix}animated`, animationName)
+
+    function handleAnimationEnd(event) {
+      event.stopPropagation()
+      if (isRemoveClass) el.classList.remove(`${prefix}animated`, animationName)
+      resolve('Animation ended')
+    }
+
+    el.addEventListener('animationend', handleAnimationEnd, { once: true })
+  })
 }

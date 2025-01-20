@@ -2,21 +2,28 @@ import { bookService } from '../services/book.service.js'
 import { LongTxt } from '../cmps/LongTxt.jsx'
 
 const { useState, useEffect } = React
+const { useParams, useNavigate, Link } = ReactRouterDOM
 
-export function BookDetails({ bookId, onBack }) {
+export function BookDetails() {
   const [book, setBook] = useState(null)
+  const params = useParams()
+  const navigate = useNavigate()
 
   useEffect(() => {
     loadBook()
-  }, [])
+  }, [params.bookId])
 
   function loadBook() {
     bookService
-      .get(bookId)
+      .get(params.bookId)
       .then(setBook)
       .catch((err) => {
         console.error('Problem getting book:', err)
       })
+  }
+
+  function onBack() {
+    navigate('/car')
   }
 
   function pageCountText(pageCount) {
@@ -30,6 +37,7 @@ export function BookDetails({ bookId, onBack }) {
       return 'Light Reading'
     }
   }
+
   function pageCountHighlight(pageCount) {
     if (pageCount > 500) {
       return 'page-count-high'
@@ -41,6 +49,7 @@ export function BookDetails({ bookId, onBack }) {
       return ''
     }
   }
+
   function publishedDateText(publishedDate) {
     const currYear = new Date().getFullYear()
     if (currYear - publishedDate >= 10) {
@@ -197,6 +206,10 @@ export function BookDetails({ bookId, onBack }) {
             Buy it now!
           </button>
         )}
+
+        {/* <button>
+                <Link to="/car/D7QkWW">Next Car</Link>
+            </button> */}
 
         <div className='actions-btns'>
           <button className='btn-back' onClick={onBack}>
