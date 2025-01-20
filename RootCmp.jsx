@@ -7,8 +7,8 @@ import { HomePage } from './pages/HomePage.jsx'
 import { AboutUs } from './pages/AboutUs.jsx'
 import { BookIndex } from './pages/BookIndex.jsx'
 import { BookDetails } from './pages/BookDetails.jsx'
-import { Team } from './cmps/Team.jsx'
-import { Vision } from './cmps/Vision.jsx'
+import { AboutTeam } from './cmps/AboutTeam.jsx'
+import { AboutGoal } from './cmps/AboutGoal.jsx'
 import { BookEdit } from './pages/BookEdit.jsx'
 import { NotFound } from './cmps/NotFound.jsx'
 import { UserMsg } from './cmps/UserMsg.jsx'
@@ -25,8 +25,8 @@ export function App() {
             <Route path='/home' element={<HomePage />} />
 
             <Route path='/about' element={<AboutUs />}>
-              <Route path='team' element={<Team />} />
-              <Route path='vision' element={<Vision />} />
+              <Route path='team' element={<AboutTeam />} />
+              <Route path='goal' element={<AboutGoal />} />
             </Route>
 
             <Route path='/book' element={<BookIndex />} />

@@ -32,9 +32,9 @@ export function AddReview({ book, onAddReview }) {
 
     bookService
       .addReview(book.id, bookReview)
-      .then((savedReview) => {
+      .then((bookWithReview) => {
         showSuccessMsg(`Review added successfuly`)
-        onAddReview(book.id, savedReview)
+        onAddReview(bookWithReview)
       })
       .catch((err) => {
         console.log('error adding review', err)

@@ -14,11 +14,11 @@ export function AboutUs() {
 
       <nav>
         <Link replace to='/about/team'>
-          Team
-        </Link>{' '}
-        |
-        <Link replace to='/about/vision'>
-          Vision
+          Our Team
+        </Link>
+        {' | '}
+        <Link replace to='/about/goal'>
+          Our Goals
         </Link>
       </nav>
 

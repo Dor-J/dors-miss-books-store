@@ -22,6 +22,7 @@ export const bookService = {
   getEmptyReview,
   getReviews,
   removeReview,
+  getNextPrevBookId,
 }
 
 function query(filterBy = {}) {
@@ -193,5 +194,16 @@ function _setNextPrevBookId(book) {
     book.nextBookId = nextBook.id
     book.prevBookId = prevBook.id
     return book
+  })
+}
+
+function getNextPrevBookId(book) {
+  return query().then((books) => {
+    const bookIdx = books.findIndex((currBook) => currBook.id === book.id)
+    const nextBook = books[bookIdx + 1] ? books[bookIdx + 1] : books[0]
+    const prevBook = books[bookIdx - 1]
+      ? books[bookIdx - 1]
+      : books[books.length - 1]
+    return { nextId: nextBook.id, prevId: prevBook.id }
   })
 }
