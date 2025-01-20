@@ -8,7 +8,6 @@ const { useState, useEffect } = React
 export function BookIndex() {
   const [books, setBooks] = useState(null)
   const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
-
   const [selectedBookId, setSelectedBookId] = useState(null)
 
   useEffect(() => {
@@ -39,32 +38,26 @@ export function BookIndex() {
     setFilterBy((filterBy) => ({ ...filterBy, ...filterByToEdit }))
   }
 
-  function onSetSelectedbookId(bookId) {
+  function handleSetSelectedbookId(bookId) {
     setSelectedBookId(bookId)
   }
 
   function getBooksStats(books) {
-    const booksStats = { minPrice: 0, maxPrice: 0, minPages: 0, maxPages: 0 }
-    booksStats.minPrice = books.reduce((acc, book) => {
-      const bookPrice = book.listPrice.amount
-      if (bookPrice < acc) acc = bookPrice
-      return acc
-    }, 100000)
-    booksStats.maxPrice = books.reduce((acc, book) => {
-      const bookPrice = book.listPrice.amount
-      if (bookPrice > acc) acc = bookPrice
-      return acc
-    }, 0)
-    booksStats.minPages = books.reduce((acc, book) => {
-      const bookPages = book.pageCount
-      if (bookPages < acc) acc = bookPages
-      return acc
-    }, 100000)
-    booksStats.maxPages = books.reduce((acc, book) => {
-      const bookPages = book.pageCount
-      if (bookPages > acc) acc = bookPages
-      return acc
-    }, 0)
+    const booksStats = books.reduce(
+      (acc, book) => {
+        const bookPrice = book.listPrice.amount
+        const bookPages = book.pageCount
+
+        if (bookPrice < acc) acc.minPrice = bookPrice
+        if (bookPrice > acc) acc.maxPrice = bookPrice
+
+        if (bookPages < acc) acc.minPages = bookPages
+        if (bookPages > acc) acc.maxPages = bookPages
+
+        return acc
+      },
+      { minPrice: 1000000, maxPrice: 0, minPages: 1000000, maxPages: 0 }
+    )
     return booksStats
   }
 
@@ -86,11 +79,13 @@ export function BookIndex() {
             booksStats={getBooksStats(books)}
           />
 
-          <BookList
-            onSetSelectedbookId={onSetSelectedbookId}
-            onRemoveBook={onRemoveBook}
-            books={books}
-          />
+          {!!books.length && (
+            <BookList
+              handleSetSelectedbookId={handleSetSelectedbookId}
+              onRemoveBook={onRemoveBook}
+              books={books}
+            />
+          )}
         </React.Fragment>
       )}
     </section>

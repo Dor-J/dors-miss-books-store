@@ -33,6 +33,16 @@ a {
   color: unset;
 }
 
+.input {
+  border-radius: 4px;
+  padding: 0.5rem 1rem;
+  border: 0;
+}
+
+.input:focus {
+  outline: none;
+}
+
 /* Dont stretch my Media */
 img,
 embed,

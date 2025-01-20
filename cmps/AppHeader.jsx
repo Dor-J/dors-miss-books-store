@@ -7,7 +7,14 @@ export function AppHeader({ setPage }) {
   return (
     <header className='app-header full main-layout'>
       <section>
-        <h1>React Book App</h1>
+        <div
+          className='logo'
+          onClick={() => {
+            onSetPage('home')
+          }}
+        >
+          React Book App
+        </div>
         <nav className='app-nav'>
           <a onClick={(ev) => onSetPage(ev, 'home')} href=''>
             Home

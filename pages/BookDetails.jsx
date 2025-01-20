@@ -67,6 +67,17 @@ export function BookDetails({ bookId, onBack }) {
     } else return ''
   }
 
+  function getBookLng(lng) {
+    switch (lng) {
+      case 'he':
+        return 'Hebrew'
+      case 'sp':
+        return 'Spanish'
+      default:
+        return 'English'
+    }
+  }
+
   if (!book) return <div>Loading...</div>
   const {
     title,
@@ -77,72 +88,121 @@ export function BookDetails({ bookId, onBack }) {
     pageCount,
     publishedDate,
     categories,
+    subtitle,
   } = book
+
+  const { amount, currencyCode, isOnSale } = listPrice
 
   return (
     <section className='book-details'>
       <div className='book-details'>
-        <h1>Book Title: {title}</h1>
-        <h2>
-          Book{' '}
-          {authors.length > 1
-            ? `Autors: ${authors.map((author) => ` ${author}`)}`
-            : `Autor: ${authors}`}
-        </h2>
-        <h2>
-          Number of Pages: {pageCount}{' '}
-          <span className={`text-underline ${pageCountHighlight(pageCount)}`}>
-            {pageCountText(pageCount)}
-          </span>
-        </h2>
-        <h2>
-          Publihed Year: {publishedDate}{' '}
-          <span
-            className={`text-underline ${publishedDateHighlight(
-              publishedDate
-            )}`}
-          >
-            {publishedDateText(publishedDate)}
-          </span>
-        </h2>
-        <h2>
-          Book Price:{' '}
-          {!listPrice.isOnSale ? (
-            listPrice.amount
-          ) : (
-            <React.Fragment>
+        <h1 className='book-details-title'>Book Title: {title}</h1>
+        <h4 className='book-details-subtitle'>{subtitle}</h4>
+
+        <div className='book-details-info'>
+          <div className='book-details-info-row'>
+            <h2 className='book-details-info-title'>Publihed Year:</h2>
+            <h3 className='book-details-info-text>'>
+              {publishedDate}{' '}
               <span
-                className={`text-line-through ${priceHighlight(
-                  listPrice.amount
+                className={`text-underline ${publishedDateHighlight(
+                  publishedDate
                 )}`}
-              >{`${listPrice.amount}`}</span>
-              ,
-              <span className='text-undeline'>
-                {' Discount! '}
-                {parseInt(listPrice.amount * 0.7)}
+              >
+                {publishedDateText(publishedDate)}
               </span>
-            </React.Fragment>
-          )}{' '}
-          {listPrice.currencyCode}
-        </h2>
-        <h4>Description</h4>
-        {description.split(' ').length > 100 ? (
-          <LongTxt txt={description} />
-        ) : (
-          <p>{description}</p>
-        )}
-        <h4>Categories</h4>
-        <ul className='categories-list w100'>
-          {categories.map((category) => (
-            <li key={category}>{`${category}`}</li>
-          ))}
-        </ul>
+            </h3>
+          </div>
+
+          <div className='book-details-info-row'>
+            <h2 className='book-details-info-title'>
+              Author{authors.length > 1 ? 's' : ''}:
+            </h2>
+            <span className='book-details-info-text'>
+              {authors.length > 1
+                ? `Autors: ${authors.map((author) => ` ${author}`)}`
+                : `Autor: ${authors}`}
+            </span>
+          </div>
+
+          <div className='book-details-info-row'>
+            <h3 className='book-details-info-title'>Language:</h3>
+            <span className='book-details-info-text'>
+              {getBookLng(language)}
+            </span>
+          </div>
+
+          <div className='book-details-info-row'>
+            <h4 className='book-details-info-title'>Categories</h4>
+            <ul className='book-details-info-text categories-list w100'>
+              {categories.map((category) => (
+                <li key={category}>{`${category}`}</li>
+              ))}
+            </ul>
+          </div>
+
+          <div className='book-details-info-row'>
+            <h2 className='book-details-info-title'>Pages:</h2>
+            <span className='book-details-info-text'>
+              {pageCount}{' '}
+              <span
+                className={`text-underline ${pageCountHighlight(pageCount)}`}
+              >
+                {pageCountText(pageCount)}
+              </span>
+            </span>
+          </div>
+
+          <div className='book-details-info-row'>
+            <h2 className='book-details-info-title'>Price:</h2>
+            <span className={'book-details-info-text'}>
+              for only{' '}
+              {!isOnSale ? (
+                amount
+              ) : (
+                <React.Fragment>
+                  <span
+                    className={`text-line-through ${priceHighlight(amount)}`}
+                  >{`${amount}`}</span>
+                  ,
+                  <span className='text-undeline'>
+                    {' Discount! '}
+                    {parseInt(amount * 0.7)}
+                  </span>
+                </React.Fragment>
+              )}{' '}
+              {currencyCode}
+            </span>
+          </div>
+          <h2></h2>
+          <div className='book-details-info-row'>
+            <h4 className='book-details-info-title'>Description</h4>
+            <LongTxt txt={description} />
+          </div>
+        </div>
+
+        <div className='book-thumbnail-container'>
+          <div className={`image-container ${isOnSale && 'on-sale'}`}>
+            <img src={`../assets/img/${thumbnail}`} alt='Book Image' />
+          </div>
+        </div>
       </div>
-      <div className={`image-container ${listPrice.isOnSale && 'on-sale'}`}>
-        <img src={`../assets/img/${thumbnail}`} alt='Book Image' />
-      </div>
+
       <div className='btns flex align-center justify-center w100'>
-        <button onClick={onBack}>Back</button>
+        {isOnSale && (
+          <button
+            className='buy-book-btn'
+            onClick={() => alert(`feature in development...`)}
+          >
+            Buy it now!
+          </button>
+        )}
+
+        <div className='actions-btns'>
+          <button className='btn-back' onClick={onBack}>
+            ⬅ Go back
+          </button>
+        </div>
       </div>
     </section>
   )
