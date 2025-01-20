@@ -18,6 +18,10 @@ export const bookService = {
   save,
   getDefaultFilter,
   getEmptyBook,
+  addReview,
+  getEmptyReview,
+  getReviews,
+  removeReview,
 }
 
 function query(filterBy = {}) {
@@ -71,6 +75,42 @@ function save(book) {
     const newBook = _createBook(book.title, book.amount)
     return storageService.post(BOOKS_KEY, newBook)
   }
+}
+
+function addReview(bookId, newReview) {
+  newReview.id = makeId(5)
+  return get(bookId)
+    .then((book) => {
+      if (!book.reviews) book.reviews = []
+      book.reviews.push(newReview)
+      return storageService.put(BOOKS_KEY, book)
+    })
+    .catch((err) => console.error('error adding review' + err))
+}
+
+function removeReview(bookId, reviewId) {
+  return get(bookId)
+    .then((book) => {
+      if (!book.reviews) {
+        console.error('no reviews found for this book')
+        throw new Error('no reviews to remove')
+      }
+
+      book.reviews = book.reviews.filter((review) => review.id !== reviewId)
+      return book
+    })
+    .then((book) => storageService.put(BOOKS_KEY, book))
+    .catch((err) => console.error('error remiving review' + err))
+}
+
+function getReviews(bookId) {
+  const book = get(bookId)
+  if (!book.reviews || !book.reviews.length) return null
+  return book.reviews
+}
+
+function getEmptyReview() {
+  return { fullname: '', rating: '', readAt: '' }
 }
 
 function getDefaultFilter() {

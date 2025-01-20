@@ -1,5 +1,7 @@
 import { bookService } from '../services/book.service.js'
 import { LongTxt } from '../cmps/LongTxt.jsx'
+import { ReviewList } from '../cmps/ReviewList.jsx'
+import { AddReview } from '../cmps/AddReview.jsx'
 
 const { useState, useEffect } = React
 const { useParams, useNavigate, Link } = ReactRouterDOM
@@ -85,6 +87,29 @@ export function BookDetails() {
       default:
         return 'English'
     }
+  }
+
+  function onRemoveReview(bookId, reviewId) {
+    bookService
+      .removeReview(bookId, reviewId)
+      .then(() => {
+        showSuccessMsg(`Review ${reviewId} Removed`)
+        setBook((prevBook) => ({
+          ...prevBook,
+          reviews: prevBook.reviews.filter((review) => review.id !== reviewId),
+        }))
+      })
+      .catch((err) => {
+        console.error('Problems removing review:', err)
+        showErrorMsg(`Cannot Remove review ${reviewId}`)
+      })
+  }
+
+  function onAddReview(savedReview) {
+    setBook((prevBook) => ({
+      ...prevBook,
+      reviews: [...(prevBook.reviews || []), savedReview],
+    }))
   }
 
   if (!book) return <div>Loading...</div>
@@ -213,11 +238,14 @@ export function BookDetails() {
             Buy it now!
           </button>
         )}
-
-        {/* <button>
-                <Link to="/book/D7QkWW">Next book</Link>
-            </button> */}
       </div>
+
+      <section className='reviews'>
+        {book.reviews && (
+          <ReviewList book={book} onRemoveReview={onRemoveReview} />
+        )}
+        <AddReview book={book} onAddReview={onAddReview} />
+      </section>
     </section>
   )
 }
