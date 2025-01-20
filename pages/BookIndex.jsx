@@ -2,11 +2,7 @@ import { BookFilter } from '../cmps/BookFilter.jsx'
 import { BookList } from '../cmps/BookList.jsx'
 import { BookDetails } from './BookDetails.jsx'
 import { bookService } from '../services/book.service.js'
-import {
-  eventBusService,
-  showSuccessMsg,
-  showErrorMsg,
-} from '../services/event-bus.service.js'
+import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 
 const { useState, useEffect } = React
 const { Link } = ReactRouterDOM
@@ -14,6 +10,7 @@ const { Link } = ReactRouterDOM
 export function BookIndex() {
   const [books, setBooks] = useState(null)
   const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
+  const [selectedBookId, setSelectedBookId] = useState(null)
 
   useEffect(() => {
     loadBooks()
@@ -33,16 +30,21 @@ export function BookIndex() {
       .remove(bookId)
       .then(() => {
         setBooks((books) => books.filter((book) => book.id !== bookId))
-        showSuccessMsg('Book Removed')
+
+        showSuccessMsg(`Book ${bookId} Removed`)
       })
       .catch((err) => {
         console.error('Problems removing book:', err)
-        showErrorMsg('Cannot Remove Book')
+        showErrorMsg(`Cannot Remove Book ${bookId}`)
       })
   }
 
   function handleSetFilter(filterByToEdit) {
     setFilterBy((filterBy) => ({ ...filterBy, ...filterByToEdit }))
+  }
+
+  function handleSetSelectBookId(bookId) {
+    setSelectedBookId(bookId)
   }
 
   function getBooksStats(books) {
@@ -68,10 +70,10 @@ export function BookIndex() {
   const { title, price, authors, categories, pages } = filterBy
   return (
     <section className='book-index'>
-      <h1 className='text-center'>Miss Book Shop</h1>
+      <h1 className='text-center'>React Book Shop</h1>
       {selectedBookId ? (
         <BookDetails
-          onBack={() => setSelectedBookId(null)}
+          onBack={() => handleSetSelectBookId(null)}
           bookId={selectedBookId}
         />
       ) : (
@@ -83,7 +85,7 @@ export function BookIndex() {
           />
 
           <button>
-            <Link to='/car/edit'>Add Car</Link>
+            <Link to='/book/edit'>Add Book</Link>
           </button>
 
           {!!books.length && (

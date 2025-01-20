@@ -9,7 +9,7 @@ export function BookList({ books, onRemoveBook }) {
         {books.map((book) => (
           <li key={book.id}>
             <BookPreview book={book} />
-            <section>
+            <div className='btns-container'>
               <button onClick={() => onRemoveBook(book.id)}>Remove</button>
               <button>
                 <Link to={`/book/${book.id}`}>Details</Link>
@@ -17,7 +17,7 @@ export function BookList({ books, onRemoveBook }) {
               <button>
                 <Link to={`/book/edit/${book.id}`}>Edit</Link>
               </button>
-            </section>
+            </div>
           </li>
         ))}
       </ul>

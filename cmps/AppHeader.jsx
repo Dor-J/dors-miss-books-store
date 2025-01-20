@@ -1,11 +1,6 @@
 const { NavLink } = ReactRouterDOM
 
-export function AppHeader({ setPage }) {
-  function onSetPage(ev, page) {
-    ev.preventDefault()
-    setPage(page)
-  }
-
+export function AppHeader() {
   return (
     <header className='app-header full main-layout'>
       <section>

@@ -1,7 +1,17 @@
-.book-details {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
+section.book-details {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+.book-details .book-details-info {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(100px, 1fr));
+}
+.book-details .book-details-info:nth-child(even) {
+  grid-column: 1;
+}
+
+.book-details .book-details-info:nth-child(odd) {
+  grid-column: 2;
 }
 
 .book-details h1 {

@@ -23,7 +23,7 @@ export function BookDetails() {
   }
 
   function onBack() {
-    navigate('/car')
+    navigate('/book')
   }
 
   function pageCountText(pageCount) {
@@ -98,6 +98,7 @@ export function BookDetails() {
     publishedDate,
     categories,
     subtitle,
+    language,
   } = book
 
   const { amount, currencyCode, isOnSale } = listPrice
@@ -192,12 +193,18 @@ export function BookDetails() {
 
         <div className='book-thumbnail-container'>
           <div className={`image-container ${isOnSale && 'on-sale'}`}>
-            <img src={`../assets/img/${thumbnail}`} alt='Book Image' />
+            <img src={`${thumbnail}`} alt='Book Image' />
           </div>
         </div>
       </div>
 
       <div className='btns flex align-center justify-center w100'>
+        <div className='actions-btns'>
+          <button className='btn-back' onClick={onBack}>
+            <Link to='/book/'>⬅ Go back</Link>
+          </button>
+        </div>
+
         {isOnSale && (
           <button
             className='buy-book-btn'
@@ -208,14 +215,8 @@ export function BookDetails() {
         )}
 
         {/* <button>
-                <Link to="/car/D7QkWW">Next Car</Link>
+                <Link to="/book/D7QkWW">Next book</Link>
             </button> */}
-
-        <div className='actions-btns'>
-          <button className='btn-back' onClick={onBack}>
-            ⬅ Go back
-          </button>
-        </div>
       </div>
     </section>
   )

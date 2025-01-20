@@ -17,12 +17,12 @@ export function App() {
   return (
     <Router>
       <section className='app'>
-        <AppHeader setPage={onSetPage} />
+        <AppHeader />
 
         <main className='main-layout'>
           <Routes>
             <Route path='/' element={<Navigate to='/home' />} />
-            <Route path='/home' element={<Home />} />
+            <Route path='/home' element={<HomePage />} />
 
             <Route path='/about' element={<AboutUs />}>
               <Route path='team' element={<Team />} />

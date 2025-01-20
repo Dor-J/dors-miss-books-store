@@ -1,4 +1,5 @@
 import { bookService } from '../services/book.service.js'
+import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 
 const { useState, useEffect } = React
 const { useParams, useNavigate, Link } = ReactRouterDOM
@@ -16,7 +17,10 @@ export function BookEdit() {
     bookService
       .get(bookId)
       .then(setBookToEdit)
-      .catch((err) => console.log('err:', err))
+      .catch((err) => {
+        console.log('err:', err)
+        showErrorMsg(`Cannot get book `)
+      })
   }
 
   function handleChange({ target }) {
@@ -32,46 +36,71 @@ export function BookEdit() {
       case 'checkbox':
         value = target.checked
         break
+
       default:
         break
     }
 
-    setBookToEdit((prevBookToEdit) => ({ ...prevBookToEdit, [field]: value }))
+    if (
+      field !== 'amount' &&
+      field !== 'currencyCode' &&
+      field !== 'isOnSale'
+    ) {
+      setBookToEdit((prevBookToEdit) => ({ ...prevBookToEdit, [field]: value }))
+    } else {
+      setBookToEdit((prevBookToEdit) => ({
+        ...prevBookToEdit,
+        listPrice: { ...prevBookToEdit.listPrice, [field]: value },
+      }))
+    }
   }
 
   function onSaveBook(ev) {
     ev.preventDefault()
 
-    console.log('bookToEdit:', bookToEdit)
-    bookService.save(bookToEdit).then((savedBook) => {
-      console.log('savedBook:', savedBook)
-      navigate('/book')
-    })
+    bookService
+      .save(bookToEdit)
+      .then((savedBook) => {
+        showSuccessMsg(`Book saved successfuly`)
+        navigate('/book')
+      })
+      .catch((err) => {
+        console.log('error onSaveBook', err)
+        showErrorMsg(`Cannot save book `)
+      })
   }
 
-  const { vendor, speed } = bookToEdit
+  const { title, listPrice, thumbnail, authors, language } = bookToEdit
+  const { amount, currencyCode, isOnSale } = listPrice
   return (
     <section className='book-edit'>
       <h1>{bookId ? 'Book Edit' : 'Book Add'}</h1>
 
       <form onSubmit={onSaveBook}>
-        <label htmlFor='vendor'>Vendor:</label>
-        <input
-          value={vendor}
-          onChange={handleChange}
-          type='text'
-          id='vendor'
-          name='vendor'
-        />
+        <div className='form-section'>
+          <label htmlFor='title'>Title:</label>
+          <input
+            value={title}
+            onChange={handleChange}
+            type='text'
+            id='title'
+            name='title'
+            placeholder='Enter Title'
+            required
+          />
+        </div>
 
-        <label htmlFor='speed'>Speed:</label>
-        <input
-          value={speed}
-          onChange={handleChange}
-          type='number'
-          id='speed'
-          name='speed'
-        />
+        <div className='form-section'>
+          <label htmlFor='amount'>Price:</label>
+          <input
+            value={listPrice.amount}
+            onChange={handleChange}
+            type='number'
+            id='amount'
+            name='amount'
+            required
+          />
+        </div>
 
         <button>Save</button>
       </form>

@@ -7,10 +7,17 @@
 
 .book-filter form {
   display: grid;
-  grid-template-columns: 100px 200px;
+  grid-auto-columns: minmax(100px, 1fr);
   gap: 0.5em;
+  justify-items: center;
+  align-items: center;
 }
 
-.book-filter form button {
-  margin-inline: 0;
+.book-filter .filter-section {
+  display: flex;
+  gap: 1em;
+  align-items: center;
+  justify-content: space-between;
+  width: min(100%, 600px);
+  flex-wrap: wrap;
 }

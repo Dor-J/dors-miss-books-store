@@ -1,6 +1,11 @@
-import { loadFromStorage, makeId, saveToStorage } from './util.service.js'
 import { storageService } from './async-storage.service.js'
-import { utilService } from './util.service.js'
+import {
+  loadFromStorage,
+  makeId,
+  saveToStorage,
+  makeLorem,
+  getRandomIntInclusive,
+} from './util.service.js'
 import { demoBooks } from '../assets/demoData/books.js'
 
 const BOOKS_KEY = 'booksDB'
@@ -85,18 +90,18 @@ function _createBooks() {
   const books = []
   for (let i = 0; i < 20; i++) {
     const book = {
-      id: utilService.makeId(),
-      title: utilService.makeLorem(2),
-      subtitle: utilService.makeLorem(4),
-      authors: [utilService.makeLorem(1)],
-      publishedDate: utilService.getRandomIntInclusive(1950, 2024),
-      description: utilService.makeLorem(20),
-      pageCount: utilService.getRandomIntInclusive(20, 600),
-      categories: [ctgs[utilService.getRandomIntInclusive(0, ctgs.length - 1)]],
+      id: makeId(),
+      title: makeLorem(2),
+      subtitle: makeLorem(4),
+      authors: [makeLorem(1)],
+      publishedDate: getRandomIntInclusive(1950, 2024),
+      description: makeLorem(20),
+      pageCount: getRandomIntInclusive(20, 600),
+      categories: [ctgs[getRandomIntInclusive(0, ctgs.length - 1)]],
       thumbnail: `http://coding-academy.org/books-photos/${i + 1}.jpg`,
       language: 'en',
       listPrice: {
-        amount: utilService.getRandomIntInclusive(80, 500),
+        amount: getRandomIntInclusive(80, 500),
         currencyCode: 'EUR',
         isOnSale: Math.random() > 0.7,
       },
@@ -105,27 +110,30 @@ function _createBooks() {
   }
 }
 
-function _createBook(title) {
-  const book = getEmptyBook(title)
+function _createBook(title, amount) {
+  const book = getEmptyBook(title, amount)
   if (!book.id) book.id = makeId(11)
   return book
 }
 
 function getEmptyBook(title = '', amount = '') {
   const ctgs = ['Love', 'Fiction', 'Poetry', 'Computers', 'Religion']
-  const randCtg1 =
-    ctgs[utilService.getRandomInt(1, parseInt(ctgs.length / 2) - 1)]
-  const randCtg2 =
-    ctgs[utilService.getRandomInt(parseInt(ctgs.length / 2), ctgs.length - 1)]
+  const randIdx1 = getRandomIntInclusive(1, parseInt(ctgs.length / 2) - 1)
+  const randIdx2 = getRandomIntInclusive(
+    parseInt(ctgs.length / 2),
+    ctgs.length - 1
+  )
+  const randCtg1 = ctgs[randIdx1]
+  const randCtg2 = ctgs[randIdx2]
   return {
     title,
-    subtitle: utilService.makeLorem(15),
+    subtitle: makeLorem(15),
     authors: ['React'],
-    publishedDate: utilService.getRandomInt(1800, 2026),
-    description: utilService.makeLorem(50),
-    pageCount: utilService.getRandomIntInclusive(20, 600),
+    publishedDate: getRandomIntInclusive(1800, 2026),
+    description: makeLorem(50),
+    pageCount: getRandomIntInclusive(20, 600),
     categories: [randCtg1, randCtg2],
-    thumbnail: `/assets/booksImages/${utilService.getRandomInt(1, 20)}.jpg`,
+    thumbnail: `/assets/booksImages/${getRandomIntInclusive(1, 20)}.jpg`,
     language: 'en',
     listPrice: {
       amount,

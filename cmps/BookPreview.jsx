@@ -30,14 +30,7 @@ export function BookPreview({ book }) {
               amount
             ) : (
               <React.Fragment>
-                <span className='text-line-through'>{`${amount.toLocaleString(
-                  language,
-                  {
-                    style: 'currency',
-                    currency: currencyCode,
-                  }
-                )}}`}</span>
-                ,
+                <span className='text-line-through'>{`${amount}`}</span>,
                 <span className='text-undeline'>
                   {' Discount! '}
                   {parseInt(amount * 0.7).toLocaleString(language, {
