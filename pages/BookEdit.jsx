@@ -18,7 +18,7 @@ export function BookEdit() {
       .get(bookId)
       .then(setBookToEdit)
       .catch((err) => {
-        console.log('err:', err)
+        console.error('err from loadBook:', err)
         showErrorMsg(`Cannot get book `)
       })
   }
@@ -65,7 +65,7 @@ export function BookEdit() {
         navigate('/book')
       })
       .catch((err) => {
-        console.log('error onSaveBook', err)
+        console.error('error onSaveBook', err)
         showErrorMsg(`Cannot save book `)
       })
   }

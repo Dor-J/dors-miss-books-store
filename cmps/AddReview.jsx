@@ -1,5 +1,6 @@
-const { useState, useEffect } = React
+const { useState, useEffect, useRef } = React
 const { useParams, useNavigate } = ReactRouterDOM
+
 import { bookService } from '../services/book.service.js'
 
 export function AddReview({ book, onAddReview }) {
@@ -23,6 +24,7 @@ export function AddReview({ book, onAddReview }) {
       default:
         break
     }
+    if (field === 'rating') spanRating.current = value
 
     setBookReview((prevBookReview) => ({ ...prevBookReview, [field]: value }))
   }
@@ -37,12 +39,12 @@ export function AddReview({ book, onAddReview }) {
         onAddReview(bookWithReview)
       })
       .catch((err) => {
-        console.log('error adding review', err)
+        console.error('error adding review', err)
         showErrorMsg(`Cannot add Review `)
       })
   }
 
-  const { fullname, readAt, rating } = bookReview
+  const { fullname, readAt, rating, txt } = bookReview
   return (
     <section className='add-review'>
       <h2>Add Review</h2>
@@ -57,11 +59,12 @@ export function AddReview({ book, onAddReview }) {
             name='fullname'
             placeholder='Enter Full Name'
             required
+            autoComplete='name'
           />
         </div>
 
         <div className='form-section'>
-          <label htmlFor='amount'>Rating:</label>
+          <label htmlFor='rating'>Rating:</label>
           <input
             value={rating}
             onChange={handleChange}
@@ -73,6 +76,7 @@ export function AddReview({ book, onAddReview }) {
             max={5}
             step={1}
           />
+          <span>{rating}</span>
         </div>
 
         <div className='form-section'>
@@ -84,7 +88,19 @@ export function AddReview({ book, onAddReview }) {
             id='readAt'
             name='readAt'
             required
-            max={new Date().getDate()}
+          />
+        </div>
+
+        <div className='form-section'>
+          <label htmlFor='txt'>Review Content:</label>
+          <textarea
+            value={txt}
+            onChange={handleChange}
+            id='txt'
+            name='txt'
+            required
+            autoComplete='off'
+            placeholder='Write your review here...'
           />
         </div>
 

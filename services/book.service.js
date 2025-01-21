@@ -22,7 +22,6 @@ export const bookService = {
   getEmptyReview,
   getReviews,
   removeReview,
-  getNextPrevBookId,
 }
 
 function query(filterBy = {}) {
@@ -61,7 +60,13 @@ function query(filterBy = {}) {
 }
 
 function get(bookId) {
-  return storageService.get(BOOKS_KEY, bookId)
+  return storageService.get(BOOKS_KEY, bookId).then((book) => {
+    if (!book) {
+      console.error('Book not found:', bookId)
+      throw new Error('Book not found')
+    }
+    return _setNextPrevBookId(book)
+  })
 }
 
 function remove(bookId) {
@@ -84,7 +89,7 @@ function addReview(bookId, newReview) {
     .then((book) => {
       if (!book.reviews) book.reviews = []
       book.reviews.push(newReview)
-      return storageService.put(BOOKS_KEY, book)
+      return storageService.put(BOOKS_KEY, book).then((book) => book)
     })
     .catch((err) => console.error('error adding review' + err))
 }
@@ -111,7 +116,7 @@ function getReviews(bookId) {
 }
 
 function getEmptyReview() {
-  return { fullname: '', rating: '', readAt: '' }
+  return { fullname: '', rating: '', readAt: '', txt: '' }
 }
 
 function getDefaultFilter() {
@@ -194,16 +199,5 @@ function _setNextPrevBookId(book) {
     book.nextBookId = nextBook.id
     book.prevBookId = prevBook.id
     return book
-  })
-}
-
-function getNextPrevBookId(book) {
-  return query().then((books) => {
-    const bookIdx = books.findIndex((currBook) => currBook.id === book.id)
-    const nextBook = books[bookIdx + 1] ? books[bookIdx + 1] : books[0]
-    const prevBook = books[bookIdx - 1]
-      ? books[bookIdx - 1]
-      : books[books.length - 1]
-    return { nextId: nextBook.id, prevId: prevBook.id }
   })
 }

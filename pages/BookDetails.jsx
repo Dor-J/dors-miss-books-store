@@ -10,21 +10,9 @@ export function BookDetails() {
   const [book, setBook] = useState(null)
   const params = useParams()
   const navigate = useNavigate()
-  const [nextBookId, setNextBookId] = useState(null)
-  const [prevBookId, setPrevBookId] = useState(null)
 
   useEffect(() => {
     loadBook()
-      .then((book) => {
-        return bookService.getNextPrevBookId(book)
-      })
-      .then(({ nextId, prevId }) => {
-        setNextBookId(nextId)
-        setPrevBookId(prevId)
-      })
-      .catch((err) => {
-        console.error('error loading next / prev', err)
-      })
   }, [params.bookId])
 
   function loadBook() {
@@ -136,6 +124,8 @@ export function BookDetails() {
     categories,
     subtitle,
     language,
+    prevBookId,
+    nextBookId,
   } = book
 
   const { amount, currencyCode, isOnSale } = listPrice
@@ -241,25 +231,25 @@ export function BookDetails() {
             <Link to='/book/'>⬅ Go back</Link>
           </button>
           {prevBookId && (
-            <button className='btn-prev' onClick={onBack}>
+            <button className='btn-prev'>
               <Link to={`/book/${prevBookId}`}>Previous Book</Link>
             </button>
           )}
           {nextBookId && (
-            <button className='btn-next' onClick={onBack}>
+            <button className='btn-next'>
               <Link to={`/book/${nextBookId}`}>Next Book</Link>
             </button>
           )}
         </div>
 
-        {isOnSale && (
+        {
           <button
             className='buy-book-btn'
             onClick={() => alert(`feature in development...`)}
           >
-            Buy it now!
+            Buy it now! {isOnSale && "It's on sale!"}
           </button>
-        )}
+        }
       </div>
 
       <section className='reviews'>
