@@ -11,7 +11,7 @@ export function BookPreview({ book }) {
             alt='Book Image'
             className='book-card-thumbnail'
             onError={({ currentTarget }) =>
-              (currentTarget.src = '../assets/img/default-book.png')
+              (currentTarget.src = '../assets/img/default-book.jpg')
             }
           />
         </div>

@@ -1,18 +1,23 @@
+const { useState, useEffect } = React
+const { Link, useSearchParams } = ReactRouterDOM
+
 import { BookFilter } from '../cmps/BookFilter.jsx'
 import { BookList } from '../cmps/BookList.jsx'
 import { BookDetails } from './BookDetails.jsx'
 import { bookService } from '../services/book.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
-
-const { useState, useEffect } = React
-const { Link } = ReactRouterDOM
+import { getTruthyValues } from '../services/util.service.js'
 
 export function BookIndex() {
   const [books, setBooks] = useState(null)
-  const [filterBy, setFilterBy] = useState(bookService.getDefaultFilter())
+  const [searchParams, setSearchParams] = useSearchParams()
+  const [filterBy, setFilterBy] = useState(
+    bookService.getFilterFromSearchParams(searchParams)
+  )
   const [selectedBookId, setSelectedBookId] = useState(null)
 
   useEffect(() => {
+    setSearchParams(getTruthyValues(filterBy))
     loadBooks()
   }, [filterBy])
 
@@ -39,7 +44,7 @@ export function BookIndex() {
   }
 
   function handleSetFilter(filterByToEdit) {
-    setFilterBy((filterBy) => ({ ...filterBy, ...filterByToEdit }))
+    setFilterBy((prevFilterBy) => ({ ...prevFilterBy, ...filterByToEdit }))
   }
 
   function handleSetSelectBookId(bookId) {
@@ -52,20 +57,21 @@ export function BookIndex() {
         const bookPrice = book.listPrice.amount
         const bookPages = book.pageCount
 
-        if (bookPrice < acc) acc.minPrice = bookPrice
-        if (bookPrice > acc) acc.maxPrice = bookPrice
+        if (bookPrice < acc.minPrice) acc.minPrice = bookPrice
+        if (bookPrice > acc.maxPrice) acc.maxPrice = bookPrice
 
-        if (bookPages < acc) acc.minPages = bookPages
-        if (bookPages > acc) acc.maxPages = bookPages
+        if (bookPages < acc.minPages) acc.minPages = bookPages
+        if (bookPages > acc.maxPages) acc.maxPages = bookPages
 
         return acc
       },
-      { minPrice: 1000000, maxPrice: 0, minPages: 1000000, maxPages: 0 }
+      { minPrice: 10000, maxPrice: 0, minPages: 1000000, maxPages: 0 }
     )
     return booksStats
   }
 
   if (!books) return <div>Loading...</div>
+  const booksStats = getBooksStats(books)
   const { title, price, authors, categories, pages } = filterBy
   return (
     <section className='book-index'>
@@ -80,7 +86,7 @@ export function BookIndex() {
           <BookFilter
             handleSetFilter={handleSetFilter}
             filterBy={{ title, price, authors, categories, pages }}
-            booksStats={getBooksStats(books)}
+            booksStats={booksStats}
           />
 
           <button>

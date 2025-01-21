@@ -9,6 +9,7 @@ export const utilService = {
   getMonthName,
   debounce,
   animateCSS,
+  getTruthyValues,
 }
 
 export function makeId(length = 6) {
@@ -21,6 +22,17 @@ export function makeId(length = 6) {
   }
 
   return txt
+}
+
+export function getTruthyValues(obj) {
+  const newObj = {}
+  for (const key in obj) {
+    const value = obj[key]
+    if (value) {
+      newObj[key] = value
+    }
+  }
+  return newObj
 }
 
 export function makeLorem(size = 100) {
@@ -121,6 +133,9 @@ export function debounce(func, delay) {
 export function animateCSS(el, animation = 'bounce', isRemoveClass = true) {
   const prefix = 'animate__'
   return new Promise((resolve, reject) => {
+    if (!el) {
+      Promise.reject('No element sent to animateCSS')
+    }
     const animationName = `${prefix}${animation}`
     el.classList.add(`${prefix}animated`, animationName)
 

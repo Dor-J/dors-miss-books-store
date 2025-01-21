@@ -23,6 +23,7 @@ export const bookService = {
   getEmptyBook,
   // Filter
   getDefaultFilter,
+  getFilterFromSearchParams,
   // Reviews
   addReview,
   getEmptyReview,
@@ -75,6 +76,21 @@ function query(filterBy = {}) {
 
 function getDefaultFilter() {
   return { title: '', price: '', categories: '', authors: '', pages: '' }
+}
+
+function getFilterFromSearchParams(searchParams) {
+  const title = searchParams.get('title') || ''
+  const price = searchParams.get('price') || ''
+  const categories = searchParams.get('categories') || ''
+  const authors = searchParams.get('authors') || ''
+  const pages = searchParams.get('pages') || ''
+  return {
+    title,
+    price,
+    categories,
+    authors,
+    pages,
+  }
 }
 
 function get(bookId) {
