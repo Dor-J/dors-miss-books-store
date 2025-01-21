@@ -7,6 +7,7 @@ import { UserMsg } from './cmps/UserMsg.jsx'
 import { NotFound } from './cmps/NotFound.jsx'
 
 import { HomePage } from './pages/HomePage.jsx'
+import { DashBoard } from './cmps/DashBoard.jsx'
 
 import { BookEdit } from './pages/BookEdit.jsx'
 import { BookDetails } from './pages/BookDetails.jsx'
@@ -30,6 +31,7 @@ export function App() {
             <Route path='/about' element={<AboutUs />}>
               <Route path='team' element={<AboutTeam />} />
               <Route path='goal' element={<AboutGoal />} />
+              <Route path='dashboard' element={<DashBoard />} />
             </Route>
 
             <Route path='/book' element={<BookIndex />} />

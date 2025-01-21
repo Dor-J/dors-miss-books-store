@@ -41,9 +41,17 @@ export function AboutUs() {
 
       <select value={cmpType} onChange={(ev) => setCmpType(ev.target.value)}>
         <option>hello</option>
-        <option>goodBye</option>
         <option>welcomeBack</option>
       </select>
+
+      <section className='dynamic-cmps'>
+        <DynamicCmp
+          age={50}
+          cmpType={cmpType}
+          name='Popo'
+          handleClick={handleGreetClick}
+        />
+      </section>
 
       <section>
         <Accordion title='Introduction to Quantum Computing'>
@@ -62,18 +70,6 @@ export function AboutUs() {
         </Accordion>
       </section>
 
-      <section className='dynamic-cmps'>
-        <DynamicCmp
-          age={50}
-          cmpType={cmpType}
-          name='Popo'
-          handleClick={handleGreetClick}
-        />
-        {/* {cmpType === 'hello' && <Hello name="Popo" handleClick={handleGreetClick} />}
-                {cmpType === 'goodbye' && <GoodBye name="Popo" handleClick={handleGreetClick} />}
-                {cmpType === 'welcomeBack' && <WelcomeBack name="Popo" handleClick={handleGreetClick} />} */}
-      </section>
-
       <nav>
         <Link replace to='/about/team'>
           Our Team
@@ -81,6 +77,10 @@ export function AboutUs() {
         {' | '}
         <Link replace to='/about/goal'>
           Our Goals
+        </Link>
+        {' | '}
+        <Link replace to='/about/dashboard'>
+          DashBoard
         </Link>
       </nav>
 

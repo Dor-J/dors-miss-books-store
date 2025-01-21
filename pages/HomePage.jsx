@@ -1,6 +1,6 @@
-import { animateCSS } from '../services/util.service.js'
-
 const { useRef } = React
+
+import { animateCSS } from '../services/util.service.js'
 
 export function HomePage() {
   const h1Ref = useRef()

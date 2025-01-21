@@ -81,7 +81,7 @@ export const demoBooks = [
     description:
       'et vehicula faucibus amet accumsan lectus cras nulla cubilia arcu neque litora mi habitasse quis amet augue facilisis sed',
     pageCount: 337,
-    categories: ['Computers', 'Hack'],
+    categories: ['Love', 'Hack', 'Advanture'],
     thumbnail: '../assets/img/12.jpg',
     language: 'sp',
     listPrice: {
@@ -119,7 +119,7 @@ export const demoBooks = [
     description:
       'nec scelerisque id cursus platea sit ullamcorper bibendum ultrices tempus ante mi aliquet cras tortor dapibus dictum scelerisque',
     pageCount: 65,
-    categories: ['Computers', 'Hack'],
+    categories: ['Computers', 'Hack', 'Advanture'],
     thumbnail: '../assets/img/14.jpg',
     language: 'he',
     listPrice: {
@@ -155,7 +155,7 @@ export const demoBooks = [
     description:
       'porttitor nisl sodales id eu tellus venenatis laoreet auctor dictumst nulla',
     pageCount: 803,
-    categories: ['Computers', 'Hack'],
+    categories: ['Computers', 'Hack', 'Advanture'],
     thumbnail: '../assets/img/10.jpg',
     language: 'sp',
     listPrice: {
@@ -173,7 +173,7 @@ export const demoBooks = [
     description:
       'curabitur bibendum in dolor neque magna phasellus arcu nulla cubilia senectus maecenas ullamcorper neque accumsan facilisis dictumst ornare',
     pageCount: 891,
-    categories: ['Computers', 'Hack'],
+    categories: ['Computers', 'Hack', 'Love'],
     thumbnail: '../assets/img/5.jpg',
     language: 'en',
     listPrice: {
@@ -209,7 +209,7 @@ export const demoBooks = [
     description:
       'aenean mauris porta netus accumsan turpis etiam vestibulum vivamus sagittis nullam nec tellus quam mattis est pellentesque nisi litora sit ad',
     pageCount: 882,
-    categories: ['Computers', 'Hack'],
+    categories: ['Computers', 'Hack', 'Love'],
     thumbnail: '../assets/img/17.jpg',
     language: 'sp',
     listPrice: {

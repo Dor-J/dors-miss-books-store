@@ -119,6 +119,26 @@ export function BookFilter({ filterBy, handleSetFilter, booksStats }) {
           />
         </div>
 
+        <div className='filter-section'>
+          <select
+            value={cmpType}
+            onChange={(ev) => setCmpType(ev.target.value)}
+          >
+            <option>RateBySelect</option>
+            <option>RateByTextbox</option>
+            <option>RateByStars</option>
+          </select>
+
+          <section className='dynamic-cmps'>
+            <DynamicCmp
+              age={50}
+              cmpType={cmpType}
+              name='Popo'
+              handleClick={handleGreetClick}
+            />
+          </section>
+        </div>
+
         <div className='.btns-container'>
           <button>Submit</button>
           <button onClick={reset}>Reset</button>

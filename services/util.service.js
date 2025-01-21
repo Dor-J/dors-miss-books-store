@@ -6,6 +6,7 @@ export const utilService = {
   saveToStorage,
   padNum,
   getDayName,
+  getDateStr,
   getMonthName,
   debounce,
   animateCSS,
@@ -100,6 +101,10 @@ function padNum(num) {
 function getDayName(date, locale) {
   date = new Date(date)
   return date.toLocaleDateString(locale, { weekday: 'long' })
+}
+
+function getDateStr(date) {
+  return new Date(date).toISOString().substring(0, 10)
 }
 
 function getMonthName(date) {
