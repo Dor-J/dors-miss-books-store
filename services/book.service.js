@@ -9,21 +9,35 @@ import {
 import { demoBooks } from '../assets/demoData/books.js'
 
 const BOOKS_KEY = 'booksDB'
+const CACHE_STORAGE_KEY = 'googleBooksCache'
+const gCache = utilService.loadFromStorage(CACHE_STORAGE_KEY) || {}
+// _createBooks()
 _createDemoBooks()
 
 export const bookService = {
+  // Book CRUDL
   query,
   get,
   remove,
   save,
-  getDefaultFilter,
   getEmptyBook,
+  // Filter
+  getDefaultFilter,
+  // Reviews
   addReview,
   getEmptyReview,
   getReviews,
   removeReview,
+  getDefaultReview,
+  // Google
+  getGoogleBooks,
+  addGoogleBook,
 }
 
+// Add bookService to window
+window.bs = bookService
+
+/////////////////////////////////////// CRUDL//////////////////////////////////////////
 function query(filterBy = {}) {
   return storageService.query(BOOKS_KEY).then((books) => {
     if (filterBy.title) {
@@ -59,6 +73,10 @@ function query(filterBy = {}) {
   })
 }
 
+function getDefaultFilter() {
+  return { title: '', price: '', categories: '', authors: '', pages: '' }
+}
+
 function get(bookId) {
   return storageService.get(BOOKS_KEY, bookId).then((book) => {
     if (!book) {
@@ -66,6 +84,19 @@ function get(bookId) {
       throw new Error('Book not found')
     }
     return _setNextPrevBookId(book)
+  })
+}
+
+function _setNextPrevBookId(book) {
+  return query().then((books) => {
+    const bookIdx = books.findIndex((currBook) => currBook.id === book.id)
+    const nextBook = books[bookIdx + 1] ? books[bookIdx + 1] : books[0]
+    const prevBook = books[bookIdx - 1]
+      ? books[bookIdx - 1]
+      : books[books.length - 1]
+    book.nextBookId = nextBook.id
+    book.prevBookId = prevBook.id
+    return book
   })
 }
 
@@ -81,46 +112,6 @@ function save(book) {
     const newBook = _createBook(book.title, book.amount)
     return storageService.post(BOOKS_KEY, newBook)
   }
-}
-
-function addReview(bookId, newReview) {
-  newReview.id = makeId(5)
-  return get(bookId)
-    .then((book) => {
-      if (!book.reviews) book.reviews = []
-      book.reviews.push(newReview)
-      return storageService.put(BOOKS_KEY, book).then((book) => book)
-    })
-    .catch((err) => console.error('error adding review' + err))
-}
-
-function removeReview(bookId, reviewId) {
-  return get(bookId)
-    .then((book) => {
-      if (!book.reviews) {
-        console.error('no reviews found for this book')
-        throw new Error('no reviews to remove')
-      }
-
-      book.reviews = book.reviews.filter((review) => review.id !== reviewId)
-      return book
-    })
-    .then((book) => storageService.put(BOOKS_KEY, book))
-    .catch((err) => console.error('error remiving review' + err))
-}
-
-function getReviews(bookId) {
-  const book = get(bookId)
-  if (!book.reviews || !book.reviews.length) return null
-  return book.reviews
-}
-
-function getEmptyReview() {
-  return { fullname: '', rating: '', readAt: '', txt: '' }
-}
-
-function getDefaultFilter() {
-  return { title: '', price: '', categories: '', authors: '', pages: '' }
 }
 
 function _createDemoBooks() {
@@ -162,25 +153,24 @@ function _createBook(title, amount) {
   return book
 }
 
-function getEmptyBook(title = '', amount = '') {
-  const ctgs = ['Love', 'Fiction', 'Poetry', 'Computers', 'Religion']
-  const randIdx1 = getRandomIntInclusive(1, parseInt(ctgs.length / 2) - 1)
-  const randIdx2 = getRandomIntInclusive(
-    parseInt(ctgs.length / 2),
-    ctgs.length - 1
-  )
-  const randCtg1 = ctgs[randIdx1]
-  const randCtg2 = ctgs[randIdx2]
+function getEmptyBook(
+  title = '',
+  amount = '',
+  description = '',
+  pageCount = '',
+  language = 'en',
+  authors = ''
+) {
   return {
     title,
-    subtitle: makeLorem(15),
-    authors: ['React'],
-    publishedDate: getRandomIntInclusive(1800, 2026),
-    description: makeLorem(50),
-    pageCount: getRandomIntInclusive(20, 600),
-    categories: [randCtg1, randCtg2],
+    subtitle,
+    authors,
+    publishedDate,
+    description,
+    pageCount,
+    categories: [],
     thumbnail: `/assets/booksImages/${getRandomIntInclusive(1, 20)}.jpg`,
-    language: 'en',
+    language,
     listPrice: {
       amount,
       currencyCode: 'EUR',
@@ -189,15 +179,49 @@ function getEmptyBook(title = '', amount = '') {
   }
 }
 
-function _setNextPrevBookId(book) {
-  return query().then((books) => {
-    const bookIdx = books.findIndex((currBook) => currBook.id === book.id)
-    const nextBook = books[bookIdx + 1] ? books[bookIdx + 1] : books[0]
-    const prevBook = books[bookIdx - 1]
-      ? books[bookIdx - 1]
-      : books[books.length - 1]
-    book.nextBookId = nextBook.id
-    book.prevBookId = prevBook.id
-    return book
-  })
+/////////////////////////////////////// REVIEWS//////////////////////////////////////////
+function addReview(bookId, newReview) {
+  newReview.id = makeId(5)
+  return get(bookId)
+    .then((book) => {
+      if (!book.reviews) book.reviews = []
+      book.reviews.push(newReview)
+      return storageService.put(BOOKS_KEY, book).then((book) => book)
+    })
+    .catch((err) => console.error('error adding review' + err))
+}
+
+function removeReview(bookId, reviewId) {
+  return get(bookId)
+    .then((book) => {
+      if (!book.reviews) {
+        console.error('no reviews found for this book')
+        throw new Error('no reviews to remove')
+      }
+
+      book.reviews = book.reviews.filter((review) => review.id !== reviewId)
+      return book
+    })
+    .then((book) => storageService.put(BOOKS_KEY, book))
+    .catch((err) => console.error('error remiving review' + err))
+}
+
+function getReviews(bookId) {
+  const book = get(bookId)
+  if (!book.reviews || !book.reviews.length) return null
+  return book.reviews
+}
+
+function getEmptyReview() {
+  return {
+    fullname: '',
+    rating: 0,
+    readAt: new Date().toISOString().slice(0, 10),
+    txt: '',
+  }
+}
+
+/////////////////////////////////////// GOOGLE //////////////////////////////////////////
+function addGoogleBook(book) {
+  return storageService.post(BOOK_KEY, book, false)
 }

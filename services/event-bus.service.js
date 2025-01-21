@@ -38,5 +38,10 @@ export function showErrorMsg(txt) {
   showUserMsg({ txt, type: 'error' })
 }
 
+export function showInfoMsg(txt) {
+  showUserMsg({ txt, type: 'info' })
+}
+
 window.showSuccessMsg = showSuccessMsg
 window.showErrorMsg = showErrorMsg
+window.showInfoMsg = showInfoMsg

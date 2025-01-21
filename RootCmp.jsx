@@ -3,15 +3,18 @@ const Router = ReactRouterDOM.HashRouter
 const { Routes, Route, Navigate } = ReactRouterDOM
 
 import { AppHeader } from './cmps/AppHeader.jsx'
+import { UserMsg } from './cmps/UserMsg.jsx'
+import { NotFound } from './cmps/NotFound.jsx'
+
 import { HomePage } from './pages/HomePage.jsx'
-import { AboutUs } from './pages/AboutUs.jsx'
-import { BookIndex } from './pages/BookIndex.jsx'
+
+import { BookEdit } from './pages/BookEdit.jsx'
 import { BookDetails } from './pages/BookDetails.jsx'
+import { BookIndex } from './pages/BookIndex.jsx'
+
+import { AboutUs } from './pages/AboutUs.jsx'
 import { AboutTeam } from './cmps/AboutTeam.jsx'
 import { AboutGoal } from './cmps/AboutGoal.jsx'
-import { BookEdit } from './pages/BookEdit.jsx'
-import { NotFound } from './cmps/NotFound.jsx'
-import { UserMsg } from './cmps/UserMsg.jsx'
 
 export function App() {
   return (
