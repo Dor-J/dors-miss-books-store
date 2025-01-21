@@ -130,6 +130,45 @@ export function AddReview({ book, onAddReview }) {
         </div>
 
         <div className='filter-section'>
+          <label htmlFor='rating'>
+            Rating: <span>{rating}</span>
+          </label>
+          <select
+            value={cmpType}
+            onChange={(ev) => setCmpType(ev.target.value)}
+          >
+            <option>RateBySelect</option>
+            <option>RateByTextbox</option>
+            <option>RateByStars</option>
+          </select>
+
+          <div className='dynamic-cmps'>
+            <DynamicCmp
+              cmpType={cmpType}
+              val={rating}
+              name='rating'
+              id='rating'
+              onRateChange={handleRateChange}
+            />
+          </div>
+        </div>
+
+        {/* <div className='form-section'>
+          
+          <input
+            value={rating}
+            onChange={handleChange}
+            type='range'
+            id='rating'
+            name='rating'
+            required
+            min={1}
+            max={5}
+            step={1}
+          />
+          
+        </div> */}
+        <div className='filter-section'>
           <label htmlFor='rating'>Rating:</label>
           <h4>
             Current rating:
