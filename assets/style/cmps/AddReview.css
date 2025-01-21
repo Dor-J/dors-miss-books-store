@@ -1,22 +1,16 @@
-.review-add {
-  position: fixed;
-  z-index: 10;
-  inset: 0;
+section.add-review {
+  display: grid;
   width: 100%;
-  height: 100%;
-  overflow: auto;
-  background-color: #474e5d7a;
-  padding-top: 50px;
+  grid-template-columns: 1fr;
+  place-items: center;
 }
 
-.review-add .review-modal {
-  position: relative;
-  background-color: #fefefe;
-  margin: 5% auto 15% auto;
-  width: 30%;
-  text-align: center;
-  min-width: 400px;
-  padding: 20px;
+section.add-review form .form-section {
+  width: 100%;
+  display: flex;
+  gap: 2em;
+  align-items: center;
+  justify-content: space-between;
 }
 
 .review-modal h1 {
@@ -38,7 +32,7 @@
   margin: 5px;
 }
 
-.review-add .btn-toggle-modal {
+.add-review .btn-toggle-modal {
   position: absolute;
   right: 0;
   top: 0;
@@ -81,26 +75,4 @@
 .review-container p {
   max-width: 90%;
   word-wrap: break-word;
-}
-
-.book-preview {
-  text-align: center;
-  padding: 0.3em;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.book-preview h4 {
-  text-transform: capitalize;
-  color: var(--gray-blac);
-}
-
-.book-preview img {
-  max-width: 100px;
-}
-
-.book-preview .image-container::after {
-  right: 50%;
-  width: 50px;
 }

@@ -1,5 +1,6 @@
 .app-header {
-  background-color: var(--clr1);
+  background: linear-gradient(-225deg, #d4450d 0%, #4070c4 100%);
+
   color: var(--clr1bg-light);
   padding-block: 0.75em;
 }

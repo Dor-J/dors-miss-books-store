@@ -49,3 +49,26 @@ section.book-details {
 .book-details h5 {
   color: var(--clr2);
 }
+
+.bold-txt {
+  font-weight: bold;
+}
+
+.book-details h4 {
+  font-size: 0.8em;
+}
+
+.high-price {
+  color: red;
+}
+
+.low-price {
+  color: green;
+}
+
+.brake-line {
+  height: 2px;
+  background: black;
+  width: 100%;
+  margin-block: 1em;
+}

@@ -1,8 +1,9 @@
+import { AddBook } from '../cmps/AddBook.jsx'
 import { bookService } from '../services/book.service.js'
 import { showSuccessMsg, showErrorMsg } from '../services/event-bus.service.js'
 
 const { useState, useEffect } = React
-const { useParams, useNavigate, Link } = ReactRouterDOM
+const { useParams, useNavigate } = ReactRouterDOM
 
 export function BookEdit() {
   const [bookToEdit, setBookToEdit] = useState(bookService.getEmptyBook())
@@ -61,13 +62,13 @@ export function BookEdit() {
     bookService
       .save(bookToEdit)
       .then((savedBook) => {
-        showSuccessMsg(`Book saved successfuly`)
-        navigate('/book')
+        showSuccessMsg(`Book ${savedBook.title} saved successfuly`)
       })
       .catch((err) => {
         console.error('error onSaveBook', err)
         showErrorMsg(`Cannot save book `)
       })
+      .finally(() => navigate('/book'))
   }
 
   const { title, listPrice, thumbnail, authors, language } = bookToEdit
@@ -75,7 +76,8 @@ export function BookEdit() {
   return (
     <section className='book-edit'>
       <h1>{bookId ? 'Book Edit' : 'Book Add'}</h1>
-
+      <AddBook />
+      Add a book manually:
       <form onSubmit={onSaveBook}>
         <div className='form-section'>
           <label htmlFor='title'>Title:</label>
@@ -99,6 +101,54 @@ export function BookEdit() {
             id='amount'
             name='amount'
             required
+          />
+        </div>
+        <div className='form-section'>
+          <label className='bold-txt' htmlFor='authors'>
+            Authors:{' '}
+          </label>
+          <input
+            onChange={handleChange}
+            value={authors}
+            id='authors'
+            type='text'
+            name='authors'
+          />
+        </div>
+        <div className='form-section'>
+          <label className='bold-txt' htmlFor='description'>
+            Description:{' '}
+          </label>
+          <input
+            onChange={handleChange}
+            value={description}
+            id='description'
+            type='text'
+            name='description'
+          />
+        </div>
+        <div className='form-section'>
+          <label className='bold-txt' htmlFor='pages'>
+            Number of pages:{' '}
+          </label>
+          <input
+            onChange={handleChange}
+            value={pageCount}
+            id='pages'
+            type='number'
+            name='pageCount'
+          />
+        </div>
+        <div className='form-section'>
+          <label className='bold-txt' htmlFor='isOnSale'>
+            On Sale:{' '}
+          </label>
+          <input
+            onChange={handleChangeListPrice}
+            checked={listPrice.isOnSale}
+            id='isOnSale'
+            type='checkbox'
+            name='isOnSale'
           />
         </div>
 

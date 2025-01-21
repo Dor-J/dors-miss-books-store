@@ -17,3 +17,7 @@
   max-width: 300px;
   margin-bottom: 15px;
 }
+
+.book-edit form button {
+  justify-self: center;
+}

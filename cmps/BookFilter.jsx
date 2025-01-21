@@ -1,13 +1,18 @@
 import { bookService } from '../services/book.service.js'
 
-const { useState, useEffect } = React
+const { useState, useEffect, useRef } = React
 
 export function BookFilter({ filterBy, handleSetFilter, booksStats }) {
   //* { title, authors, categories, price, pages }
   const [filterByToEdit, setFilterByToEdit] = useState(filterBy)
 
+  const initialFilterBy = useRef({ ...filterBy })
+  const onSetFilterDebounce = useRef(
+    utilService.debounce(handleSetFilter, 500)
+  ).current
+
   useEffect(() => {
-    handleSetFilter(filterByToEdit)
+    onSetFilterDebounce(filterByToEdit)
   }, [filterByToEdit])
 
   function onSubmit(ev) {
@@ -33,6 +38,10 @@ export function BookFilter({ filterBy, handleSetFilter, booksStats }) {
         break
     }
     setFilterByToEdit((prevFilterBy) => ({ ...prevFilterBy, [field]: value }))
+  }
+
+  function reset() {
+    setFilterByToEdit(initialFilterBy.current)
   }
 
   const { minPrice, maxPrice, minPages, maxPages } = booksStats
@@ -112,6 +121,7 @@ export function BookFilter({ filterBy, handleSetFilter, booksStats }) {
 
         <div className='.btns-container'>
           <button>Submit</button>
+          <button onClick={reset}>Reset</button>
         </div>
       </form>
     </section>

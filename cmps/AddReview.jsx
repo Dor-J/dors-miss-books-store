@@ -6,6 +6,12 @@ import { bookService } from '../services/book.service.js'
 export function AddReview({ book, onAddReview }) {
   const [bookReview, setBookReview] = useState(bookService.getEmptyReview())
   const navigate = useNavigate()
+  const inputRef = useRef()
+  const spanRating = useRef(bookReview.rating)
+
+  useEffect(() => {
+    inputRef.current.focus()
+  }, [])
 
   function handleChange({ target }) {
     const field = target.name
@@ -60,6 +66,7 @@ export function AddReview({ book, onAddReview }) {
             placeholder='Enter Full Name'
             required
             autoComplete='name'
+            ref={inputRef}
           />
         </div>
 

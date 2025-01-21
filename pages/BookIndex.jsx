@@ -30,7 +30,6 @@ export function BookIndex() {
       .remove(bookId)
       .then(() => {
         setBooks((books) => books.filter((book) => book.id !== bookId))
-
         showSuccessMsg(`Book ${bookId} Removed`)
       })
       .catch((err) => {
