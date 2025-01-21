@@ -1,5 +1,3 @@
-import { bookService } from '../services/book.service.js'
-
 const { useState, useEffect, useRef } = React
 
 export function BookFilter({ filterBy, handleSetFilter, booksStats }) {
@@ -117,26 +115,6 @@ export function BookFilter({ filterBy, handleSetFilter, booksStats }) {
             placeholder='Enter category'
             className='input'
           />
-        </div>
-
-        <div className='filter-section'>
-          <select
-            value={cmpType}
-            onChange={(ev) => setCmpType(ev.target.value)}
-          >
-            <option>RateBySelect</option>
-            <option>RateByTextbox</option>
-            <option>RateByStars</option>
-          </select>
-
-          <section className='dynamic-cmps'>
-            <DynamicCmp
-              age={50}
-              cmpType={cmpType}
-              name='Popo'
-              handleClick={handleGreetClick}
-            />
-          </section>
         </div>
 
         <div className='.btns-container'>

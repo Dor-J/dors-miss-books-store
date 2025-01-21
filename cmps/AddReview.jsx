@@ -7,7 +7,8 @@ export function AddReview({ book, onAddReview }) {
   const [bookReview, setBookReview] = useState(bookService.getEmptyReview())
   const navigate = useNavigate()
   const inputRef = useRef()
-  const spanRating = useRef(bookReview.rating)
+  const spanRating = useRef(1)
+  const [cmpType, setCmpType] = useState('RateBySelect')
 
   useEffect(() => {
     inputRef.current.focus()
@@ -35,6 +36,11 @@ export function AddReview({ book, onAddReview }) {
     setBookReview((prevBookReview) => ({ ...prevBookReview, [field]: value }))
   }
 
+  function handleRateChange(value) {
+    setBookReview((prevBookReview) => ({ ...prevBookReview, rating: value }))
+    spanRating.current = value
+  }
+
   function onSaveReview(ev) {
     ev.preventDefault()
 
@@ -48,6 +54,59 @@ export function AddReview({ book, onAddReview }) {
         console.error('error adding review', err)
         showErrorMsg(`Cannot add Review `)
       })
+  }
+
+  function RateBySelect({ val, onRateChange }) {
+    return (
+      <select value={val} onChange={(ev) => onRateChange(+ev.target.value)}>
+        {[1, 2, 3, 4, 5].map((num) => (
+          <option key={num} value={num}>
+            {num}
+          </option>
+        ))}
+      </select>
+    )
+  }
+
+  function RateByTextbox({ val, onRateChange }) {
+    return (
+      <input
+        type='number'
+        min='1'
+        max='5'
+        value={val}
+        onChange={(ev) => onRateChange(+ev.target.value)}
+      />
+    )
+  }
+
+  function RateByStars({ val, onRateChange }) {
+    return (
+      <div>
+        {[1, 2, 3, 4, 5].map((num) => (
+          <span
+            key={num}
+            style={{
+              cursor: 'pointer',
+              color: num <= val ? 'gold' : 'black',
+            }}
+            onClick={() => onRateChange(num)}
+          >
+            ★
+          </span>
+        ))}
+      </div>
+    )
+  }
+
+  function DynamicCmp({ cmpType, val, onRateChange }) {
+    const dynamicCmpsMap = {
+      RateBySelect: <RateBySelect val={val} onRateChange={onRateChange} />,
+      RateByTextbox: <RateByTextbox val={val} onRateChange={onRateChange} />,
+      RateByStars: <RateByStars val={val} onRateChange={onRateChange} />,
+    }
+
+    return dynamicCmpsMap[cmpType] || null
   }
 
   const { fullname, readAt, rating, txt } = bookReview
@@ -70,20 +129,30 @@ export function AddReview({ book, onAddReview }) {
           />
         </div>
 
-        <div className='form-section'>
+        <div className='filter-section'>
           <label htmlFor='rating'>Rating:</label>
-          <input
-            value={rating}
-            onChange={handleChange}
-            type='range'
-            id='rating'
-            name='rating'
-            required
-            min={1}
-            max={5}
-            step={1}
-          />
-          <span>{rating}</span>
+          <h4>
+            Current rating:
+            <span ref={spanRating}> {rating}</span>
+          </h4>
+          <select
+            value={cmpType}
+            onChange={(ev) => setCmpType(ev.target.value)}
+          >
+            <option>RateBySelect</option>
+            <option>RateByTextbox</option>
+            <option>RateByStars</option>
+          </select>
+
+          <div className='dynamic-cmps'>
+            <DynamicCmp
+              cmpType={cmpType}
+              val={rating}
+              name='rating'
+              id='rating'
+              onRateChange={handleRateChange}
+            />
+          </div>
         </div>
 
         <div className='form-section'>
