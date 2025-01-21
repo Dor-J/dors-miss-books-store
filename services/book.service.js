@@ -163,9 +163,9 @@ function getEmptyBook(
 ) {
   return {
     title,
-    subtitle,
+    subtitle: '',
     authors,
-    publishedDate,
+    publishedDate: getRandomIntInclusive(1950, 2024),
     description,
     pageCount,
     categories: [],
@@ -233,7 +233,10 @@ function getDefaultReview() {
 
 /////////////////////////////////////// GOOGLE //////////////////////////////////////////
 function addGoogleBook(book) {
-  return storageService.post(BOOK_KEY, book, false)
+  if (book.id === '' || !book.id) {
+    book.id = makeId(10)
+  }
+  return storageService.post(BOOKS_KEY, book, false)
 }
 
 function getGoogleBooks(bookName) {

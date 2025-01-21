@@ -156,8 +156,10 @@ export function BookDetails() {
               Author{authors.length > 1 ? 's' : ''}:
             </h2>
             <span className='book-details-info-text'>
-              {authors.length > 1
-                ? `Autors: ${authors.map((author) => ` ${author}`)}`
+              {typeof authors !== 'string'
+                ? authors.length > 1
+                  ? `Autors: ${authors.map((author) => ` ${author}`)}`
+                  : `Autor: ${authors}`
                 : `Autor: ${authors}`}
             </span>
           </div>

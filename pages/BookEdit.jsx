@@ -71,14 +71,22 @@ export function BookEdit() {
       .finally(() => navigate('/book'))
   }
 
-  const { title, listPrice, thumbnail, authors, language } = bookToEdit
+  const {
+    title,
+    listPrice,
+    thumbnail,
+    authors,
+    language,
+    description,
+    pageCount,
+  } = bookToEdit
   const { amount, currencyCode, isOnSale } = listPrice
   return (
     <section className='book-edit'>
       <h1>{bookId ? 'Book Edit' : 'Book Add'}</h1>
       <AddBook />
-      Add a book manually:
       <form onSubmit={onSaveBook}>
+        <h2 className='edit-form-title'>Add a book manually:</h2>
         <div className='form-section'>
           <label htmlFor='title'>Title:</label>
           <input
@@ -144,8 +152,8 @@ export function BookEdit() {
             On Sale:{' '}
           </label>
           <input
-            onChange={handleChangeListPrice}
-            checked={listPrice.isOnSale}
+            onChange={handleChange}
+            checked={isOnSale}
             id='isOnSale'
             type='checkbox'
             name='isOnSale'
