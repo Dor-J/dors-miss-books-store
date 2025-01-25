@@ -34,9 +34,10 @@ export function App() {
               <Route path='dashboard' element={<DashBoard />} />
             </Route>
 
-            <Route path='/book' element={<BookIndex />} />
+            <Route path='/book' element={<BookIndex />}>
+              <Route path='/book/edit' element={<BookEdit />} />
+            </Route>
             <Route path='/book/:bookId' element={<BookDetails />} />
-            <Route path='/book/edit' element={<BookEdit />} />
             <Route path='/book/edit/:bookId' element={<BookEdit />} />
 
             <Route path='*' element={<NotFound />} />
