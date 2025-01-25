@@ -12,6 +12,7 @@ body {
   margin: 0;
   color: var(--gray3);
   font-size: 1.2rem;
+  background-color: lightskyblue;
 }
 
 h1,
