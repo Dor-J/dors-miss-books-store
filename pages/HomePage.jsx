@@ -15,10 +15,12 @@ export function HomePage() {
   return (
     <section className='home'>
       <h1 ref={h1Ref} className='text-center'>
-        React Books's R Us!
+        Do Books Hhop!
       </h1>
       <h2 ref={h2Ref}>Welcome to ReactBook Book Shop!!!</h2>
       <button onClick={onActivate}>Do not Press</button>
+
+      <p>This book shop is made just for you!</p>
     </section>
   )
 }

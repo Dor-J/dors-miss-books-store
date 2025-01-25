@@ -1,18 +1,26 @@
-.about p {
+.about-us {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1em;
+}
+
+.about-us p {
   margin-block-start: 10px;
 }
 
-.about nav {
+.about-us nav {
   display: flex;
   gap: 10px;
 }
 
-.about nav a {
+.about-us nav a {
   color: blue;
   text-decoration: underline;
 }
 
-.about h4 {
+.about-us h4 {
   margin-block-start: 10px;
 }
 
@@ -26,4 +34,14 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+}
+
+.about-us section.dashboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  flex-wrap: wrap;
+  gap: 1em;
 }

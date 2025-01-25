@@ -12,6 +12,9 @@
   justify-content: space-around;
   align-items: center;
   background-color: var(--clr1bg);
+  border-radius: 2em;
+  height: 100%;
+  padding-block-end: 1em;
 }
 
 .book-list .btns-container {
